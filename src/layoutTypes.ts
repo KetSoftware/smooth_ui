@@ -1,0 +1,43 @@
+export type Overflow = 'visible' | 'hidden' | 'scroll' | 'auto' | 'initial' | 'inherit' | 'unset';
+export type TJustifyContent =
+  | 'center'
+  | 'start'
+  | 'end'
+  | 'flex-start'
+  | 'flex-end'
+  | 'left'
+  | 'right'
+  | 'normal'
+  | 'space-between'
+  | 'space-around'
+  | 'space-evenly'
+  | 'stretch'
+  | 'safe center'
+  | 'unsafe center';
+export type TDisplayType =
+  | 'block'
+  | 'inline'
+  | 'inline-block'
+  | 'flex'
+  | 'inline-flex'
+  | 'grid'
+  | 'inline-grid'
+  | 'flow-root'
+  | 'none'
+  | 'contents'
+  | 'table'
+  | 'table-row'
+  | 'table-cell';
+export type TAlignItems =
+  | 'normal'
+  | 'stretch'
+  | 'center'
+  | 'start'
+  | 'end'
+  | 'flex-start'
+  | 'flex-end'
+  | 'baseline'
+  | 'first baseline'
+  | 'last baseline'
+  | 'safe center'
+  | 'unsafe center';

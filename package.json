@@ -1,21 +1,22 @@
 {
   "name": "@smoothhiring/smooth-ui",
   "version": "0.1.0",
-  "description": "Shared MUI-based UI primitives for Smooth Hiring apps",
   "license": "UNLICENSED",
   "private": true,
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
-    }
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./craco-webpack": "./craco-webpack.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "craco-webpack.js"
   ],
   "sideEffects": false,
   "scripts": {
@@ -27,17 +28,22 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.6.0",
     "@mui/material": "^5.16.0",
+    "@mui/x-data-grid": "^6.0.0",
+    "@mui/x-date-pickers": "^6.0.0",
+    "date-fns": "^2.0.0",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "react-quill": "^2.0.0",
+    "react-router-dom": "^6.0.0"
   },
   "devDependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@mui/material": "^5.16.4",
-    "@types/react": "^18.3.0",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "date-fns": "^2.30.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-quill": "^2.0.0",
+    "react-router-dom": "^6.30.3",
     "tsup": "^8.0.0",
     "typescript": "^5.6.0"
   }

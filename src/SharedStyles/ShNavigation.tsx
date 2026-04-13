@@ -1,4 +1,4 @@
-import type { ElementType } from 'react';
+import type { ElementType, SyntheticEvent } from 'react';
 import { Drawer, Link, LinkProps, MenuItem, Switch, SwitchProps, Tabs, TabsProps, Tab, TabProps, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { DarkModeBackground, PrimaryThemeColor, ShBorderRadius, ShOnHover, WhiteColor } from './styleConstants';
@@ -23,7 +23,7 @@ export const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   },
 }));
 
-export const MaterialUISwitch = styled(Switch)(({ theme }) => ({
+const StyledMaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,
   padding: 7,
@@ -76,6 +76,8 @@ export const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     }),
   },
 }));
+
+export const MaterialUISwitch = (props: SwitchProps) => <StyledMaterialUISwitch {...props} />;
 
 export const ShSwitch = styled((props: SwitchProps & { color?: string }) => <Switch focusVisibleClassName='.Mui-focusVisible' disableRipple {...props} />)(({ theme, color = '#65C466' }) => ({
   width: 42,
@@ -157,14 +159,15 @@ export const ShSwitchField = ({ label, helperText, color, ...props }: ShSwitchFi
   );
 };
 
-interface IShTabs extends TabsProps {
+interface IShTabs extends Omit<TabsProps, 'onChange'> {
+  onChange?: (event: SyntheticEvent, value: any) => void;
   highlightVariant?: 'underline' | 'button';
   highlightColor?: string;
   fontSize?: 'large' | 'medium' | 'small' | string;
   fontWeight?: 'bold' | number | string;
 }
 
-export const ShTabs = styled(Tabs, {
+const StyledShTabs = styled(Tabs, {
   shouldForwardProp: prop => prop !== 'highlightVariant' && prop !== 'highlightColor' && prop !== 'fontSize' && prop !== 'fontWeight',
 })<IShTabs>(({ theme, highlightVariant = 'button', fontSize = theme.typography.body2.fontSize, fontWeight = 'inherit', highlightColor = PrimaryThemeColor }) => ({
   minHeight: 'unset',
@@ -196,7 +199,9 @@ export const ShTabs = styled(Tabs, {
   },
 }));
 
-export const DashboardTabs = styled(Tabs)(({ theme }) => ({
+export const ShTabs = (props: IShTabs) => <StyledShTabs {...props} />;
+
+const StyledDashboardTabs = styled(Tabs)(({ theme }) => ({
   minHeight: 'unset',
   '& .MuiTabs-indicator': {
     backgroundColor: 'transparent',
@@ -226,7 +231,9 @@ export const DashboardTabs = styled(Tabs)(({ theme }) => ({
   },
 }));
 
-export const ShTabsV2 = styled(ShTabs, {
+export const DashboardTabs = (props: IShTabs) => <StyledDashboardTabs {...props} />;
+
+const StyledShTabsV2 = styled(Tabs, {
   shouldForwardProp: prop => prop !== 'highlightVariant' && prop !== 'highlightColor' && prop !== 'fontSize' && prop !== 'fontWeight',
 })<IShTabs>(({ theme, fontSize = theme.typography.body2.fontSize, fontWeight = 'inherit', highlightColor = theme.palette.primary.main }) => ({
   backgroundColor: 'transparent',
@@ -259,6 +266,8 @@ export const ShTabsV2 = styled(ShTabs, {
     },
   },
 }));
+
+export const ShTabsV2 = (props: IShTabs) => <StyledShTabsV2 {...props} />;
 
 interface IShGradientTab extends TabProps {
   to?: string;

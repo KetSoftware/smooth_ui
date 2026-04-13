@@ -1,7 +1,7 @@
-import type { ElementType } from 'react';
-import { Box, Button, ButtonProps, Checkbox, Chip, CircularProgress, FormControlLabel, InputBase, RadioGroup, TextField, ToggleButtonGroup } from '@mui/material';
+import type { ChangeEvent, ElementType, MouseEvent } from 'react';
+import { Box, Button, ButtonProps, Checkbox, CheckboxProps, Chip, CircularProgress, FormControlLabel, InputBase, RadioGroup, RadioGroupProps, TextField, ToggleButtonGroup, ToggleButtonGroupProps } from '@mui/material';
 import { darken, styled, Theme } from '@mui/material/styles';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DatePicker, DatePickerProps } from '@mui/x-date-pickers/DatePicker';
 import { BorderColorDark, BorderColorLight, LogoutRedColor, ShBorderRadius, ShGreen, shBlue, WhiteColor } from './styleConstants';
 
 export const AutocompletePopoverProps = { style: { maxHeight: '250px' } };
@@ -282,13 +282,19 @@ interface IShToggleButtonGroup {
   buttonsGap?: number;
 }
 
-export const ShToggleButtonGroup = styled(ToggleButtonGroup, {
+const StyledShToggleButtonGroup = styled(ToggleButtonGroup, {
   shouldForwardProp: prop => prop !== 'borderRadius' && prop !== 'minWidth' && prop !== 'variant' && prop !== 'buttonsGap',
 })<IShToggleButtonGroup>(({ theme, borderRadius = ShBorderRadius, minWidth, variant = 'default', buttonsGap = 0 }) => ({
   ...(variant === 'default' ? ShToggleButtonGroupDefault(theme, borderRadius, minWidth) : ShToggleButtonGroupPill(theme, minWidth, buttonsGap)),
 }));
 
-export const ShToggleButtonGroupV2 = styled(ToggleButtonGroup, {
+type ShToggleButtonGroupProps = Omit<ToggleButtonGroupProps, 'onChange'> & {
+  onChange?: (event: MouseEvent<HTMLElement>, value: any) => void;
+} & IShToggleButtonGroup;
+
+export const ShToggleButtonGroup = (props: ShToggleButtonGroupProps) => <StyledShToggleButtonGroup {...props} />;
+
+const StyledShToggleButtonGroupV2 = styled(ToggleButtonGroup, {
   shouldForwardProp: prop => prop !== 'borderRadius' && prop !== 'minWidth' && prop !== 'variant' && prop !== 'buttonsGap',
 })<IShToggleButtonGroup>(({ theme, borderRadius = ShBorderRadius, minWidth = 'auto', variant = 'default', buttonsGap = 0 }) => ({
   display: 'inline-flex',
@@ -349,7 +355,9 @@ export const ShToggleButtonGroupV2 = styled(ToggleButtonGroup, {
   }),
 }));
 
-export const ShCheckbox = styled(Checkbox)(({ theme }) => ({
+export const ShToggleButtonGroupV2 = (props: ShToggleButtonGroupProps) => <StyledShToggleButtonGroupV2 {...props} />;
+
+const StyledShCheckbox = styled(Checkbox)(({ theme }) => ({
   '&:not(.Mui-checked)': {
     '& .MuiSvgIcon-root': {
       fill: theme.palette.mode === 'light' ? BorderColorLight : BorderColorDark,
@@ -361,6 +369,8 @@ export const ShCheckbox = styled(Checkbox)(({ theme }) => ({
     },
   },
 }));
+
+export const ShCheckbox = (props: CheckboxProps) => <StyledShCheckbox {...props} />;
 
 export const ShChipCheckbox = styled(Chip)(({ theme }) => ({
   display: 'flex',
@@ -399,7 +409,7 @@ export const ShChipCheckbox = styled(Chip)(({ theme }) => ({
   },
 }));
 
-export const ShGreenCheckbox = styled(Checkbox)(({ theme }) => ({
+const StyledShGreenCheckbox = styled(Checkbox)(({ theme }) => ({
   '&:not(.Mui-checked)': {
     '& .MuiSvgIcon-root': {
       fill: theme.palette.mode === 'light' ? BorderColorLight : BorderColorDark,
@@ -411,6 +421,8 @@ export const ShGreenCheckbox = styled(Checkbox)(({ theme }) => ({
     },
   },
 }));
+
+export const ShGreenCheckbox = (props: CheckboxProps) => <StyledShGreenCheckbox {...props} />;
 
 export const SelectMenuProps = {
   PaperProps: {
@@ -449,7 +461,7 @@ interface IShTextField {
   maxWidth?: string;
 }
 
-export const ShTextField = styled(TextField, {
+const StyledShTextField = styled(TextField, {
   shouldForwardProp: prop => prop !== 'borderRadius' && prop !== 'maxWidth',
 })<IShTextField>(({ theme, borderRadius = ShBorderRadius, maxWidth = 'unset' }) => ({
   '& .MuiOutlinedInput-root': {
@@ -475,18 +487,32 @@ export const ShTextField = styled(TextField, {
   },
 }));
 
-export const ShResizableTextField = styled(TextField)(({ theme }) => ({
+type ShTextFieldProps = {
+  [key: string]: any;
+  onChange?: (event: any) => void;
+  onClick?: (event: any) => void;
+  onBlur?: (event: any) => void;
+  onFocus?: (event: any) => void;
+  onKeyDown?: (event: any) => void;
+  onKeyPress?: (event: any) => void;
+} & IShTextField;
+
+export const ShTextField = (props: ShTextFieldProps) => <StyledShTextField {...props} />;
+
+const StyledShResizableTextField = styled(TextField)(({ theme }) => ({
   '& textarea': {
     resize: 'vertical', // Allows resizing only vertically
   },
 }));
+
+export const ShResizableTextField = (props: ShTextFieldProps) => <StyledShResizableTextField {...props} />;
 
 interface IShRadioGroup {
   color?: string;
   width?: string;
 }
 
-export const ShRadioGroup = styled(RadioGroup, {
+const StyledShRadioGroup = styled(RadioGroup, {
   shouldForwardProp: prop => prop !== 'color' && prop !== 'width',
 })<IShRadioGroup>(({ theme, color = theme.palette.primary.main, width = 'unset' }) => ({
   flexWrap: 'unset',
@@ -512,6 +538,12 @@ export const ShRadioGroup = styled(RadioGroup, {
   },
 }));
 
+type ShRadioGroupProps = Omit<RadioGroupProps, 'onChange'> & {
+  onChange?: (event: ChangeEvent<HTMLInputElement>, value: string) => void;
+} & IShRadioGroup;
+
+export const ShRadioGroup = (props: ShRadioGroupProps) => <StyledShRadioGroup {...props} />;
+
 interface IShTextField {
   borderRadius?: string;
   maxWidth?: string;
@@ -519,7 +551,7 @@ interface IShTextField {
   isReducedPadding?: boolean;
 }
 
-export const ShTextFieldV2 = styled(TextField, {
+const StyledShTextFieldV2 = styled(TextField, {
   shouldForwardProp: prop => prop !== 'borderRadius' && prop !== 'maxWidth' && prop !== 'isResizable' && prop !== 'isReducedPadding',
 })<IShTextField>(({ theme, borderRadius = '10px', maxWidth = 'unset', isResizable = false, isReducedPadding = false }) => ({
   '& .MuiOutlinedInput-root': {
@@ -566,7 +598,19 @@ export const ShTextFieldV2 = styled(TextField, {
   },
 }));
 
-export const ShDatePickerV2 = styled(DatePicker, {
+type ShTextFieldV2Props = {
+  [key: string]: any;
+  onChange?: (event: any) => void;
+  onClick?: (event: any) => void;
+  onBlur?: (event: any) => void;
+  onFocus?: (event: any) => void;
+  onKeyDown?: (event: any) => void;
+  onKeyPress?: (event: any) => void;
+} & IShTextField;
+
+export const ShTextFieldV2 = (props: ShTextFieldV2Props) => <StyledShTextFieldV2 {...props} />;
+
+const StyledShDatePickerV2 = styled(DatePicker, {
   shouldForwardProp: prop => prop !== 'borderRadius' && prop !== 'maxWidth' && prop !== 'isResizable' && prop !== 'isReducedPadding',
 })<IShTextField>(({ theme, borderRadius = '10px', maxWidth = 'unset', isResizable = false, isReducedPadding = false }) => ({
   '& .MuiOutlinedInput-root': {
@@ -605,6 +649,15 @@ export const ShDatePickerV2 = styled(DatePicker, {
     resize: isResizable ? 'vertical' : 'none',
   },
 }));
+
+type ShDatePickerV2Props<TDate> = Omit<DatePickerProps<TDate>, 'onChange' | 'shouldDisableDate' | 'shouldDisableMonth' | 'shouldDisableYear'> & {
+  onChange?: (value: TDate | null, context?: unknown) => void;
+  shouldDisableDate?: (day: TDate) => boolean;
+  shouldDisableMonth?: (month: TDate) => boolean;
+  shouldDisableYear?: (year: TDate) => boolean;
+} & IShTextField;
+
+export const ShDatePickerV2 = <TDate,>(props: ShDatePickerV2Props<TDate>) => <StyledShDatePickerV2 {...(props as DatePickerProps<unknown> & IShTextField)} />;
 
 interface IShFormControlLabel {
   onHoverBackground?: string;

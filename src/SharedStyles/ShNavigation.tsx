@@ -181,6 +181,27 @@ const StyledShTabs = styled(Tabs, {
   shouldForwardProp: prop => prop !== 'highlightVariant' && prop !== 'highlightColor' && prop !== 'fontSize' && prop !== 'fontWeight',
 })<IShTabs>(({ theme, highlightVariant = 'button', fontSize = theme.typography.body2.fontSize, fontWeight = 'inherit', highlightColor = PrimaryThemeColor }) => ({
   minHeight: 'unset',
+  overflow: 'visible',
+  '& .MuiTabs-scroller': {
+    overflow: 'visible !important',
+  },
+  '& .MuiTabs-list, & .MuiTabs-flexContainer': {
+    overflow: 'visible',
+    paddingLeft: theme.spacing(0.25),
+    paddingRight: theme.spacing(0.25),
+    gap: theme.spacing(0.5),
+  },
+  '& .MuiTabs-scrollButtons': {
+    minWidth: 0,
+  },
+  '& .MuiTabs-scrollButtons.Mui-disabled': {
+    width: 0,
+    minWidth: 0,
+    padding: 0,
+    margin: 0,
+    opacity: 0,
+    pointerEvents: 'none',
+  },
   '& .MuiTabs-indicator': {
     display: highlightVariant === 'button' ? 'none' : 'block',
     backgroundColor: highlightColor,
@@ -200,6 +221,14 @@ const StyledShTabs = styled(Tabs, {
         color: theme.palette.mode === 'light' ? WhiteColor : DarkModeBackground,
       },
     },
+  },
+  '& .MuiTab-root:first-of-type': {
+    borderTopLeftRadius: ShBorderRadius,
+    borderBottomLeftRadius: ShBorderRadius,
+  },
+  '& .MuiTab-root:last-of-type': {
+    borderTopRightRadius: ShBorderRadius,
+    borderBottomRightRadius: ShBorderRadius,
   },
   '&.applicant-tabs': {
     width: 'fit-content',
@@ -252,6 +281,27 @@ const StyledShTabsV2 = styled(Tabs, {
   position: 'relative',
   zIndex: 2,
   pointerEvents: 'auto',
+  overflow: 'visible',
+  '& .MuiTabs-scroller': {
+    overflow: 'visible !important',
+  },
+  '& .MuiTabs-list, & .MuiTabs-flexContainer': {
+    overflow: 'visible',
+    paddingLeft: theme.spacing(0.25),
+    paddingRight: theme.spacing(0.25),
+    gap: theme.spacing(0.5),
+  },
+  '& .MuiTabs-scrollButtons': {
+    minWidth: 0,
+  },
+  '& .MuiTabs-scrollButtons.Mui-disabled': {
+    width: 0,
+    minWidth: 0,
+    padding: 0,
+    margin: 0,
+    opacity: 0,
+    pointerEvents: 'none',
+  },
   '& .MuiTabs-indicator': {
     display: 'none',
   },
@@ -265,6 +315,8 @@ const StyledShTabsV2 = styled(Tabs, {
     textTransform: 'none',
     backgroundColor: 'transparent',
     color: theme.palette.text.primary,
+    overflow: 'hidden',
+    backgroundClip: 'padding-box',
     '&.Mui-selected': {
       backgroundColor: theme.palette.background.paper,
       color: highlightColor,
@@ -274,6 +326,14 @@ const StyledShTabsV2 = styled(Tabs, {
     '&:hover': {
       backgroundColor: theme.palette.action.hover,
     },
+  },
+  '& .MuiTab-root:first-of-type': {
+    borderTopLeftRadius: '25px',
+    borderBottomLeftRadius: '25px',
+  },
+  '& .MuiTab-root:last-of-type': {
+    borderTopRightRadius: '25px',
+    borderBottomRightRadius: '25px',
   },
 }));
 
@@ -287,6 +347,9 @@ export const ShGradientTab = styled((props: IShGradientTab) => <Tab disableRippl
   padding: theme.spacing(1, 1.5),
   transition: 'all 0.4s ease-in-out',
   color: theme.palette.text.primary,
+  borderRadius: '25px',
+  overflow: 'hidden',
+  backgroundClip: 'padding-box',
   '&:hover': {
     backgroundColor: theme.palette.action.hover,
   },

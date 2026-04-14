@@ -1,4 +1,4 @@
-import type { ChangeEvent, ElementType, MouseEvent } from 'react';
+import type { ChangeEvent, MouseEvent, MouseEventHandler } from 'react';
 import { Box, Button, ButtonProps, Checkbox, CheckboxProps, Chip, CircularProgress, FormControlLabel, InputBase, RadioGroup, RadioGroupProps, TextField, ToggleButtonGroup, ToggleButtonGroupProps } from '@mui/material';
 import { darken, styled, Theme } from '@mui/material/styles';
 import { DatePicker, DatePickerProps } from '@mui/x-date-pickers/DatePicker';
@@ -24,17 +24,17 @@ export const LeftNavButtonStyled = styled(Button)<IShButton>(({ theme }) => ({
   },
 }));
 
-export interface IShButton extends Omit<ButtonProps, 'component'> {
+export type IShButton = Omit<ButtonProps, 'onClick'> & {
   borderRadius?: number;
-  component?: ElementType;
   to?: string;
   minWidth?: string | number;
   marginLeft?: string;
   textColor?: string;
   extraLarge?: boolean;
-}
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+};
 
-export const ShButton = styled(Button, {
+const StyledShButton = styled(Button, {
   shouldForwardProp: prop => prop !== 'borderRadius' && prop !== 'minWidth' && prop !== 'marginLeft' && prop !== 'textColor' && prop !== 'extraLarge',
 })<IShButton>(({ theme, fullWidth, borderRadius = ShBorderRadius, minWidth = 'unset', marginLeft = 'unset', textColor, extraLarge }) => ({
   borderRadius: borderRadius,
@@ -56,7 +56,9 @@ export const ShButton = styled(Button, {
   },
 }));
 
-export const ShGreenBtn = styled(Button, {
+export const ShButton = (props: IShButton) => <StyledShButton {...props} />;
+
+const StyledShGreenBtn = styled(Button, {
   shouldForwardProp: prop => prop !== 'borderRadius' && prop !== 'minWidth' && prop !== 'marginLeft',
 })<IShButton>(({ theme, fullWidth, borderRadius = ShBorderRadius, minWidth = 'unset', marginLeft = 'unset', extraLarge }) => ({
   textTransform: 'none',
@@ -80,12 +82,13 @@ export const ShGreenBtn = styled(Button, {
     },
   },
   '&:hover': {
-    // darken function from @mui. Takes in a color and value to darken the given color.
     backgroundColor: darken(ShGreen, 0.1),
   },
 }));
 
-export const ShBlueBtn = styled(Button, {
+export const ShGreenBtn = (props: IShButton) => <StyledShGreenBtn {...props} />;
+
+const StyledShBlueBtn = styled(Button, {
   shouldForwardProp: prop => prop !== 'borderRadius' && prop !== 'minWidth' && prop !== 'marginLeft',
 })<IShButton>(({ theme, fullWidth, borderRadius = ShBorderRadius, minWidth = 'unset', marginLeft = 'unset' }) => ({
   textTransform: 'none',
@@ -108,6 +111,8 @@ export const ShBlueBtn = styled(Button, {
     backgroundColor: darken(shBlue, 0.1),
   },
 }));
+
+export const ShBlueBtn = (props: IShButton) => <StyledShBlueBtn {...props} />;
 
 export const ShGradientButton = styled(Button, {
   shouldForwardProp: prop => !['borderRadius', 'minWidth', 'marginLeft', 'textColor', 'extraLarge'].includes(prop as string),

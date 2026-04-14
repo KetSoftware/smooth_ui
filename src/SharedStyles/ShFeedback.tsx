@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react';
 import { Alert, AlertProps, Backdrop, Dialog, DialogProps } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import TwoStepAuthImage from '../assets/Login/DeviceAuth.svg';
@@ -38,13 +39,13 @@ export const ShBackdrop = styled(Backdrop)(({ theme }) => ({
   },
 }));
 
-interface IShDialog extends DialogProps {
+interface IShDialogStyleProps {
   actionsPlacement?: TJustifyContent;
 }
 
-export const ShDialog = styled(Dialog, {
+const StyledShDialog = styled(Dialog, {
   shouldForwardProp: prop => prop !== 'actionsPlacement',
-})<IShDialog>(({ theme, actionsPlacement = 'space-between' }) => ({
+})<IShDialogStyleProps>(({ theme, actionsPlacement = 'space-between' }) => ({
   '& .MuiDialogTitle-root': {
     padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
     '& .MuiButtonBase-root': {
@@ -92,3 +93,10 @@ export const ShDialog = styled(Dialog, {
     },
   },
 }));
+
+type IShDialogProps = Omit<DialogProps, 'onClick'> & {
+  actionsPlacement?: TJustifyContent;
+  onClick?: (event: MouseEvent<HTMLElement>) => void;
+};
+
+export const ShDialog = (props: IShDialogProps) => <StyledShDialog {...props} />;

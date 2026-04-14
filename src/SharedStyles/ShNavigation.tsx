@@ -1,4 +1,4 @@
-import type { ElementType, SyntheticEvent } from 'react';
+import type { ChangeEvent, ElementType, SyntheticEvent } from 'react';
 import { Drawer, Link, LinkProps, MenuItem, Switch, SwitchProps, Tabs, TabsProps, Tab, TabProps, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { DarkModeBackground, PrimaryThemeColor, ShBorderRadius, ShOnHover, WhiteColor } from './styleConstants';
@@ -79,7 +79,16 @@ const StyledMaterialUISwitch = styled(Switch)(({ theme }) => ({
 
 export const MaterialUISwitch = (props: SwitchProps) => <StyledMaterialUISwitch {...props} />;
 
-export const ShSwitch = styled((props: SwitchProps & { color?: string }) => <Switch focusVisibleClassName='.Mui-focusVisible' disableRipple {...props} />)(({ theme, color = '#65C466' }) => ({
+type IShSwitchProps = Omit<SwitchProps, 'onChange'> & {
+  color?: SwitchProps['color'];
+  checkedColor?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
+};
+
+const StyledShSwitch = styled(
+  ({ checkedColor, ...props }: IShSwitchProps) => <Switch focusVisibleClassName='.Mui-focusVisible' disableRipple {...props} />,
+  { shouldForwardProp: prop => prop !== 'checkedColor' }
+)(({ theme, checkedColor = '#65C466' }) => ({
   width: 42,
   height: 26,
   padding: 0,
@@ -91,11 +100,11 @@ export const ShSwitch = styled((props: SwitchProps & { color?: string }) => <Swi
       transform: 'translateX(16px)',
       color: '#fff',
       '& + .MuiSwitch-track': {
-        backgroundColor: color, // Use the color prop for the checked state
+        backgroundColor: checkedColor,
         opacity: 1,
         border: 0,
         ...theme.applyStyles('dark', {
-          backgroundColor: color,
+          backgroundColor: checkedColor,
         }),
       },
       '&.Mui-disabled + .MuiSwitch-track': {
@@ -137,16 +146,17 @@ export const ShSwitch = styled((props: SwitchProps & { color?: string }) => <Swi
   },
 }));
 
-interface ShSwitchFieldProps extends SwitchProps {
+export const ShSwitch = (props: IShSwitchProps) => <StyledShSwitch {...props} />;
+
+interface ShSwitchFieldProps extends IShSwitchProps {
   label: string;
   helperText?: string;
-  color?: SwitchProps['color'];
 }
 
-export const ShSwitchField = ({ label, helperText, color, ...props }: ShSwitchFieldProps) => {
+export const ShSwitchField = ({ label, helperText, ...props }: ShSwitchFieldProps) => {
   return (
     <Stack direction='row' spacing={1} alignItems='center'>
-      <ShSwitch {...props} color={color} />
+      <ShSwitch {...props} />
       <Stack spacing={0.25}>
         <Typography variant='body2'>{label}</Typography>
         {helperText ? (

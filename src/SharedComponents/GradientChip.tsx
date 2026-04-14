@@ -1,4 +1,6 @@
+import type { ReactNode } from 'react';
 import { Box, BoxProps, styled, keyframes } from '@mui/material';
+import type { SxProps, Theme } from '@mui/material/styles';
 
 const gradientAnimation = keyframes`
   0% { background-position: 0% 50%; }
@@ -14,6 +16,8 @@ interface GradientBorderProps extends BoxProps {
   hoverable?: boolean;
   animationDurationMs?: number;
   borderOpacity?: number;
+  children?: ReactNode;
+  sx?: SxProps<Theme>;
 }
 
 const GradientBorderBox = styled(Box)<GradientBorderProps>(({ theme, gradient, animated, borderWidth = 2, borderRadius = 15, hoverable = true, animationDurationMs = 3000, borderOpacity = 1 }) => ({

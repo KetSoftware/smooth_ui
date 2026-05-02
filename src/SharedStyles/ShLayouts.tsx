@@ -101,12 +101,49 @@ export const LeftPanelContainer = styled(Stack)(({ theme }) => ({
   height: '100%',
   maxWidth: '100%',
   width: '100%',
+  backgroundColor: theme.palette.background.paper,
   borderRight: `1px solid ${theme.palette.mode === 'light' ? BorderColorLight : BorderColorDark}`,
+  boxSizing: 'border-box',
+}));
+
+export const EmployerSideNavRail = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.up('xs')]: {
+    display: 'none',
+  },
+  [theme.breakpoints.up('sm')]: {
+    display: 'none',
+  },
+  [theme.breakpoints.up('md')]: {
+    display: 'flex',
+  },
+  zIndex: 20,
+  flexShrink: 0,
+  contain: 'layout',
+  width: '252px',
+  overflow: 'hidden',
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.shorter,
+  }),
+  '&.is-mini-drawer': {
+    width: '60px',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.shorter,
+    }),
+  },
+  '@media (prefers-reduced-motion: reduce)': {
+    transition: 'none',
+    '&.is-mini-drawer': {
+      transition: 'none',
+    },
+  },
 }));
 
 export const SideNavLinksStack = styled(Stack)(({ theme }) => ({
   marginTop: theme.spacing(1),
   marginBottom: theme.spacing(1),
+  gap: theme.spacing(0.25),
   '&::-webkit-scrollbar': {
     width: '6px',
   },

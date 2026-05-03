@@ -18,7 +18,19 @@ export interface ShPaperTooltipProps {
   arrowLink?: string;
 }
 
-export const ShPaperTooltip = ({ title, children, placement = 'top', maxWidth = 320, open, onClose, onOpen, onClick, arrow = true, showArrowIcon, arrowLink }: ShPaperTooltipProps) => {
+export function ShPaperTooltip({
+  title,
+  children,
+  placement = 'top',
+  maxWidth = 320,
+  open,
+  onClose,
+  onOpen,
+  onClick,
+  arrow = true,
+  showArrowIcon,
+  arrowLink,
+}: ShPaperTooltipProps) {
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
   const tooltipBg = theme.palette.background.paper;
@@ -95,4 +107,4 @@ export const ShPaperTooltip = ({ title, children, placement = 'top', maxWidth = 
       </Box>
     </Tooltip>
   );
-};
+}

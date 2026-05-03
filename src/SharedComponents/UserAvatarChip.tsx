@@ -5,6 +5,7 @@ import { getInitialsFromName, stringToColor } from '../utils/avatarText';
 
 export interface UserAvatarChipProps {
   fullName: string;
+  avatarSrc?: string;
   email?: string;
   size?: 'small' | 'medium' | 'large';
   variant?: 'default' | 'outlined' | 'filled';
@@ -18,7 +19,7 @@ export interface UserAvatarChipProps {
   avatarHeight?: number;
 }
 
-const UserAvatarChip: React.FC<UserAvatarChipProps> = ({ fullName, email, size = 'medium', variant = 'default', color = 'primary', showEmail = false, onClick, onDelete, className, initialsLength = 2, avatarWidth, avatarHeight }) => {
+const UserAvatarChip: React.FC<UserAvatarChipProps> = ({ fullName, avatarSrc, email, size = 'medium', variant = 'default', color = 'primary', showEmail = false, onClick, onDelete, className, initialsLength = 2, avatarWidth, avatarHeight }) => {
   let initials: string;
   if (initialsLength === 1) {
     const nameParts = fullName.trim().split(' ');
@@ -35,7 +36,7 @@ const UserAvatarChip: React.FC<UserAvatarChipProps> = ({ fullName, email, size =
   return (
     <Chip
       avatar={
-        <ShAvatar width={width} height={height} backgroundColor={avatarBackgroundColor}>
+        <ShAvatar width={width} height={height} backgroundColor={avatarBackgroundColor} src={avatarSrc}>
           <Typography variant='caption' color='white'>
             {initials}
           </Typography>

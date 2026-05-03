@@ -4,7 +4,7 @@ import { Box, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon
 import { IConfirmationDialog } from './ConfirmationDialogModel';
 import { ShButton, ShDialog } from '../../shStyleExports';
 
-export const ConfirmationDialog = ({ onCancel, onConfirm, contentText, title, isDialogOpen, cancelButtonLabel, actionsPlacement, onDialogClose, confirmButtonLabel, isCancelDisabled = false, isConfirmDisabled = false, disableBackdropClose = false, isShowCloseIcon, isOnlyOk, showExtraButton, onExtraButtonClick }: IConfirmationDialog) => {
+export const ConfirmationDialog = ({ onCancel, onConfirm, contentText, title, isDialogOpen, cancelButtonLabel, actionsPlacement, onDialogClose, confirmButtonLabel, confirmButtonColor = 'success', isCancelDisabled = false, isConfirmDisabled = false, disableBackdropClose = false, isShowCloseIcon, isOnlyOk, showExtraButton, onExtraButtonClick }: IConfirmationDialog) => {
   const handleClose = useCallback(() => {
     onDialogClose ? onDialogClose() : (onCancel as () => void)?.();
   }, [onDialogClose, onCancel]);
@@ -49,7 +49,7 @@ export const ConfirmationDialog = ({ onCancel, onConfirm, contentText, title, is
                 Start Onboarding
               </ShButton>
             )}
-            <ShButton variant='contained' color='success' size='small' onClick={onConfirm} disabled={isConfirmDisabled}>
+            <ShButton variant='contained' color={confirmButtonColor} size='small' onClick={onConfirm} disabled={isConfirmDisabled}>
               {confirmButtonLabel ?? 'Confirm'}
             </ShButton>
           </Stack>

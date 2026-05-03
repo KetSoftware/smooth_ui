@@ -16,6 +16,7 @@ export interface IConfirmationDialog extends IConfirmationDialogLabels {
   onDialogClose?: () => void;
   onCancel?: (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => void;
   onConfirm: (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => void;
+  confirmButtonColor?: 'success' | 'error' | 'primary' | 'warning' | 'info' | 'inherit';
   isCancelDisabled?: boolean;
   isConfirmDisabled?: boolean;
   disableBackdropClose?: boolean;

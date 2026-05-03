@@ -42,7 +42,7 @@ const StyledShButton = styled(Button, {
   width: fullWidth ? '100%' : 'fit-content',
   minWidth: minWidth,
   marginLeft: marginLeft,
-  color: textColor,
+  ...(textColor != null && String(textColor).length > 0 ? { color: textColor } : {}),
   ...(extraLarge && {
     fontSize: theme.typography.button.fontSize,
     padding: '10px 30px',

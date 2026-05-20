@@ -1,4 +1,4 @@
-import type { ChangeEvent, MouseEvent, MouseEventHandler } from 'react';
+import type { ChangeEvent, MouseEvent } from 'react';
 import { Box, Button, ButtonProps, Checkbox, CheckboxProps, Chip, CircularProgress, FormControlLabel, InputBase, RadioGroup, RadioGroupProps, TextField, ToggleButtonGroup, ToggleButtonGroupProps } from '@mui/material';
 import { darken, styled, Theme } from '@mui/material/styles';
 import { DatePicker, DatePickerProps } from '@mui/x-date-pickers/DatePicker';
@@ -31,7 +31,9 @@ export type IShButton = Omit<ButtonProps, 'onClick'> & {
   marginLeft?: string;
   textColor?: string;
   extraLarge?: boolean;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  target?: string;
+  rel?: string;
+  onClick?: ButtonProps['onClick'];
 };
 
 const StyledShButton = styled(Button, {

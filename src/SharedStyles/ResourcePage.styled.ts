@@ -1,4 +1,4 @@
-import { Box, FormControl, Stack, Typography, styled } from '@mui/material';
+import { Box, Button, FormControl, Stack, Typography, styled } from '@mui/material';
 
 /** Section heading with optional icon – aligns with app section title patterns (Help, Settings). */
 export const ResourceSectionHeading = styled(Stack)(({ theme }) => ({
@@ -82,4 +82,73 @@ export const ResourceCardWrapper = styled(Box)(({ theme }) => ({
 /** Stack spacing for section content below a heading. */
 export const ResourceSectionStack = styled(Stack)(({ theme }) => ({
   paddingTop: theme.spacing(3),
+}));
+
+type ResourceAiToolFormGridProps = {
+  /** Number of text fields before the submit button (default 3). */
+  fieldColumns?: 2 | 3;
+};
+
+/** AI generator toolbar: fields grow; submit keeps natural width (no clipped labels). */
+export const ResourceAiToolFormGrid = styled(Box, {
+  shouldForwardProp: prop => prop !== 'fieldColumns',
+})<ResourceAiToolFormGridProps>(({ theme, fieldColumns = 3 }) => ({
+  display: 'grid',
+  gap: theme.spacing(2),
+  alignItems: 'center',
+  gridTemplateColumns: '1fr',
+  [theme.breakpoints.up('sm')]: {
+    gridTemplateColumns: `repeat(${Math.min(fieldColumns, 2)}, minmax(0, 1fr))`,
+  },
+  [theme.breakpoints.up('md')]: {
+    gridTemplateColumns: `repeat(${fieldColumns}, minmax(0, 1fr)) auto`,
+  },
+  '& > .resource-ai-tool-submit': {
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: 'auto',
+      justifySelf: 'end',
+    },
+  },
+}));
+
+/** Hero search + primary CTA on template list pages. */
+export const ResourceHeroCtaRow = styled(Stack)(({ theme }) => ({
+  justifyContent: 'center',
+  alignItems: 'center',
+  paddingTop: theme.spacing(1),
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  gap: theme.spacing(2),
+  '& > *:first-of-type': {
+    flex: '1 1 200px',
+    minWidth: 0,
+    maxWidth: 720,
+  },
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'column',
+    alignItems: 'stretch',
+  },
+}));
+
+/** Horizontal CTAs that wrap; use with ShButton (fit-content width by default). */
+export const ResourceActionRow = styled(Stack)(({ theme }) => ({
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  gap: theme.spacing(1.5),
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+/** Full-width picker in template category grids. */
+export const ResourceTemplateCardButton = styled(Button)(({ theme }) => ({
+  width: '100%',
+  justifyContent: 'flex-start',
+  textAlign: 'left',
+  whiteSpace: 'normal',
+  height: 'auto',
+  paddingTop: theme.spacing(1.5),
+  paddingBottom: theme.spacing(1.5),
+  minHeight: 48,
+  textTransform: 'none',
 }));

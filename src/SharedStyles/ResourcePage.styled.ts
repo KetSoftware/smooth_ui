@@ -84,31 +84,27 @@ export const ResourceSectionStack = styled(Stack)(({ theme }) => ({
   paddingTop: theme.spacing(3),
 }));
 
-type ResourceAiToolFormGridProps = {
-  /** Number of text fields before the submit button (default 3). */
-  fieldColumns?: 2 | 3;
-};
+/** Padded body inside resource ShPaper blocks. */
+export const ResourceAiToolFormBody = styled(Stack)(({ theme }) => ({
+  padding: theme.spacing(2),
+}));
 
-/** AI generator toolbar: fields grow; submit keeps natural width (no clipped labels). */
-export const ResourceAiToolFormGrid = styled(Box, {
-  shouldForwardProp: prop => prop !== 'fieldColumns',
-})<ResourceAiToolFormGridProps>(({ theme, fieldColumns = 3 }) => ({
-  display: 'grid',
-  gap: theme.spacing(2),
+/** AI generator: fields and submit on one row (ATS toolbar pattern). */
+export const ResourceAiToolFormRow = styled(Stack)(({ theme }) => ({
+  flexDirection: 'row',
   alignItems: 'center',
-  gridTemplateColumns: '1fr',
-  [theme.breakpoints.up('sm')]: {
-    gridTemplateColumns: `repeat(${Math.min(fieldColumns, 2)}, minmax(0, 1fr))`,
-  },
-  [theme.breakpoints.up('md')]: {
-    gridTemplateColumns: `repeat(${fieldColumns}, minmax(0, 1fr)) auto`,
+  justifyContent: 'center',
+  gap: theme.spacing(2),
+  '& > *:not(.resource-ai-tool-submit)': {
+    flex: '1 1 0',
+    minWidth: 0,
   },
   '& > .resource-ai-tool-submit': {
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: 'auto',
-      justifySelf: 'end',
-    },
+    flex: '0 0 auto',
+  },
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column',
+    alignItems: 'stretch',
   },
 }));
 
@@ -125,7 +121,7 @@ export const ResourceHeroCtaRow = styled(Stack)(({ theme }) => ({
     minWidth: 0,
     maxWidth: 720,
   },
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
     alignItems: 'stretch',
   },
@@ -139,6 +135,22 @@ export const ResourceActionRow = styled(Stack)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
 }));
+
+/** End-aligned action bar above generated content. */
+export const ResourceActionRowEnd = styled(ResourceActionRow)(({ theme }) => ({
+  justifyContent: 'flex-end',
+  padding: theme.spacing(2),
+}));
+
+/** Centered CTAs with outer margin (template detail hero). */
+export const ResourceActionRowInset = styled(ResourceActionRow)(({ theme }) => ({
+  margin: theme.spacing(1),
+}));
+
+/** Primary CTA aligned to start of a vertical stack. */
+export const ResourceStackPrimaryAction = styled(Box)({
+  alignSelf: 'flex-start',
+});
 
 /** Full-width picker in template category grids. */
 export const ResourceTemplateCardButton = styled(Button)(({ theme }) => ({

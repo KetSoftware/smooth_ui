@@ -36,6 +36,32 @@ export type IShButton = Omit<ButtonProps, 'onClick'> & {
   onClick?: ButtonProps['onClick'];
 };
 
+/** Keeps ShButton / ShGreenBtn / ShBlueBtn the same height when paired (outlined + contained). */
+const shButtonSizeMetrics = {
+  boxSizing: 'border-box' as const,
+  '&.MuiButton-sizeLarge': {
+    minHeight: 42,
+    padding: '7px 22px',
+  },
+  '&.MuiButton-sizeMedium': {
+    minHeight: 36,
+    padding: '6px 16px',
+  },
+  '&.MuiButton-sizeSmall': {
+    minHeight: 30,
+    padding: '4px 10px',
+  },
+  '&.MuiButton-outlined.MuiButton-sizeLarge': {
+    padding: '6px 21px',
+  },
+  '&.MuiButton-outlined.MuiButton-sizeMedium': {
+    padding: '5px 15px',
+  },
+  '&.MuiButton-outlined.MuiButton-sizeSmall': {
+    padding: '3px 9px',
+  },
+};
+
 const StyledShButton = styled(Button, {
   shouldForwardProp: prop => prop !== 'borderRadius' && prop !== 'minWidth' && prop !== 'marginLeft' && prop !== 'textColor' && prop !== 'extraLarge',
 })<IShButton>(({ theme, fullWidth, borderRadius = ShBorderRadius, minWidth = 'unset', marginLeft = 'unset', textColor, extraLarge }) => ({
@@ -47,14 +73,12 @@ const StyledShButton = styled(Button, {
   ...(textColor != null && String(textColor).length > 0 ? { color: textColor } : {}),
   ...(extraLarge && {
     fontSize: theme.typography.button.fontSize,
-    padding: '10px 30px',
+    minHeight: 42,
+    padding: '7px 22px',
   }),
+  ...shButtonSizeMetrics,
   '&.MuiButton-text': {
     textDecoration: theme.palette.mode === 'dark' ? 'underline' : 'none',
-  },
-  '&.MuiButton-outlined': {
-    paddingTop: 0,
-    paddingBottom: 0,
   },
 }));
 
@@ -67,8 +91,10 @@ const StyledShGreenBtn = styled(Button, {
   borderRadius: borderRadius,
   ...(extraLarge && {
     fontSize: theme.typography.button.fontSize,
-    padding: '10px 30px',
+    minHeight: 42,
+    padding: '7px 22px',
   }),
+  ...shButtonSizeMetrics,
   width: 'fit-content',
   '&.self-center': {
     alignSelf: 'center',
@@ -95,6 +121,7 @@ const StyledShBlueBtn = styled(Button, {
 })<IShButton>(({ theme, fullWidth, borderRadius = ShBorderRadius, minWidth = 'unset', marginLeft = 'unset' }) => ({
   textTransform: 'none',
   borderRadius: borderRadius,
+  ...shButtonSizeMetrics,
   width: 'fit-content',
   '&.self-center': {
     alignSelf: 'center',

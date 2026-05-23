@@ -121,9 +121,19 @@ export const ResourceHeroCtaRow = styled(Stack)(({ theme }) => ({
     minWidth: 0,
     maxWidth: 720,
   },
+  '& .MuiButton-root': {
+    alignSelf: 'center',
+  },
+  '& .MuiInputBase-root': {
+    minHeight: 42,
+    boxSizing: 'border-box',
+  },
   [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
     alignItems: 'stretch',
+    '& .MuiButton-root': {
+      width: '100%',
+    },
   },
 }));
 
@@ -134,6 +144,9 @@ export const ResourceActionRow = styled(Stack)(({ theme }) => ({
   gap: theme.spacing(1.5),
   alignItems: 'center',
   justifyContent: 'center',
+  '& .MuiButton-root': {
+    alignSelf: 'center',
+  },
 }));
 
 /** End-aligned action bar above generated content. */

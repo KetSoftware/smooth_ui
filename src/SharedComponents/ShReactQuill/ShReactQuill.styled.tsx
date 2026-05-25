@@ -1,7 +1,7 @@
-import ReactQuill from 'react-quill';
 import styled from '@emotion/styled';
 
-export const ShReactQuillStyled = styled(ReactQuill)`
+/** Wrapper for ReactQuill — styles apply to Quill DOM inside (no top-level react-quill import for SSR). */
+export const ShReactQuillStyled = styled('div')`
   height: 100%;
   min-height: 200px;
   display: flex;

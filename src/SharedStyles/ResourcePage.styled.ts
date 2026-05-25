@@ -44,7 +44,7 @@ export const ResourceFormControl = styled(FormControl)(({ theme }) => ({
 
 /** Hero title on marketing/employer resource home – responsive typography from theme. */
 export const ResourceHeroTitle = styled(Typography)(({ theme }) => ({
-  fontWeight: 700,
+  fontWeight: 600,
   color: theme.palette.text.primary,
   textAlign: 'center',
   [theme.breakpoints.down('sm')]: {
@@ -69,8 +69,12 @@ export const ResourceHeroBody = styled(Typography)(({ theme }) => ({
 
 /** Spaced stack for CTA block – theme spacing, no inline pt/pb. */
 export const ResourceCTAStack = styled(Stack)(({ theme }) => ({
-  paddingTop: theme.spacing(4),
-  paddingBottom: theme.spacing(4),
+  paddingTop: theme.spacing(2.5),
+  paddingBottom: theme.spacing(2.5),
+  [theme.breakpoints.up('sm')]: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
 }));
 
 /** Wrapper for resource cards – consistent height and bottom spacing (use with ShPaper inside). */
@@ -131,8 +135,16 @@ export const ResourceHeroCtaRow = styled(Stack)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
     alignItems: 'stretch',
+    '& > *': {
+      flex: 'none',
+      maxWidth: 'none',
+    },
     '& .MuiButton-root': {
       width: '100%',
+      minHeight: 40,
+      height: 40,
+      maxHeight: 40,
+      padding: '8px 16px',
     },
   },
 }));
@@ -153,6 +165,13 @@ export const ResourceActionRow = styled(Stack)(({ theme }) => ({
 export const ResourceActionRowEnd = styled(ResourceActionRow)(({ theme }) => ({
   justifyContent: 'flex-end',
   padding: theme.spacing(2),
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    '& .MuiButton-root': {
+      width: '100%',
+    },
+  },
 }));
 
 /** Centered CTAs with outer margin (template detail hero). */
@@ -161,9 +180,29 @@ export const ResourceActionRowInset = styled(ResourceActionRow)(({ theme }) => (
 }));
 
 /** Primary CTA aligned to start of a vertical stack. */
-export const ResourceStackPrimaryAction = styled(Box)({
+export const ResourceStackPrimaryAction = styled(Box)(({ theme }) => ({
   alignSelf: 'flex-start',
-});
+  width: '100%',
+  '& .MuiButton-root': {
+    width: '100%',
+    minHeight: 40,
+    height: 40,
+    maxHeight: 40,
+    padding: '8px 16px',
+    whiteSpace: 'normal',
+    boxSizing: 'border-box',
+  },
+  [theme.breakpoints.up('sm')]: {
+    width: 'auto',
+    '& .MuiButton-root': {
+      width: 'auto',
+      minHeight: 36,
+      height: 36,
+      maxHeight: 'none',
+      whiteSpace: 'nowrap',
+    },
+  },
+}));
 
 /** Full-width picker in template category grids. */
 export const ResourceTemplateCardButton = styled(Button)(({ theme }) => ({

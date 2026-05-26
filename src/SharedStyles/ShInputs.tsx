@@ -304,6 +304,11 @@ const ShToggleButtonGroupPill = (theme: Theme, minWidth: string | undefined, gap
       border: `1px solid ${theme.palette.divider}`,
       '&.Mui-selected': {
         border: `1px solid ${theme.palette.primary.main}`,
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
+        '&:hover': {
+          backgroundColor: theme.palette.primary.dark,
+        },
       },
     },
   };

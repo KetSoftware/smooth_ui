@@ -93,6 +93,69 @@ export const ResourceAiToolFormBody = styled(Stack)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
+/** Centered AI generating state inside resource ShPaper. */
+export const ResourceAiToolGeneratingStack = styled(Stack)(({ theme }) => ({
+  alignItems: 'center',
+  textAlign: 'center',
+  padding: theme.spacing(3, 2),
+  gap: theme.spacing(2),
+  width: '100%',
+}));
+
+/** Inline host for ShLoadingDots (avoids full-overlay absolute positioning). */
+export const ResourceAiToolLoadingDotsHost = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: 40,
+  minWidth: 96,
+  '& .loading-dots': {
+    position: 'relative',
+    top: 'auto',
+    left: 'auto',
+    transform: 'none',
+    backgroundColor: 'transparent',
+  },
+}));
+
+/** Quill / rich output below AI tool action row. */
+export const ResourceAiToolResultBody = styled(ResourceAiToolFormBody)(({ theme }) => ({
+  paddingTop: 0,
+  '& .ql-toolbar.ql-snow': {
+    borderTopLeftRadius: theme.shape.borderRadius,
+    borderTopRightRadius: theme.shape.borderRadius,
+    borderColor: theme.palette.divider,
+    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(15, 23, 42, 0.02)',
+  },
+  '& .ql-container.ql-snow': {
+    borderBottomLeftRadius: theme.shape.borderRadius,
+    borderBottomRightRadius: theme.shape.borderRadius,
+    borderColor: theme.palette.divider,
+    fontFamily: theme.typography.fontFamily,
+    fontSize: theme.typography.body1.fontSize,
+  },
+  '& .ql-editor': {
+    minHeight: 280,
+    lineHeight: 1.65,
+    '& h3': {
+      margin: theme.spacing(2, 0, 1),
+      fontSize: theme.typography.subtitle1.fontSize,
+      fontWeight: 700,
+    },
+    '& p': {
+      marginBottom: theme.spacing(1.25),
+    },
+    '& ul': {
+      paddingLeft: theme.spacing(2.5),
+      marginBottom: theme.spacing(1.5),
+    },
+    '& li': {
+      marginBottom: theme.spacing(0.75),
+    },
+  },
+}));
+
 /** AI generator: fields and submit on one row (ATS toolbar pattern). */
 export const ResourceAiToolFormRow = styled(Stack)(({ theme }) => ({
   flexDirection: 'row',

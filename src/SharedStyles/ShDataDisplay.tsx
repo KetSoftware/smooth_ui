@@ -364,7 +364,9 @@ export const ShChip = styled(
     borderRadius: borderRadius || '4px',
     padding: padding,
     fontSize: fontSize,
-    maxWidth: maxWidth || 'none',
+    width: 'fit-content',
+    alignSelf: 'flex-start',
+    maxWidth: maxWidth || '100%',
     border: borderColor ? `1px solid ${borderColor}` : '',
   };
 });

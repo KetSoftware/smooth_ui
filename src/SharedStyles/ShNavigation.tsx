@@ -177,6 +177,16 @@ interface IShTabs extends Omit<TabsProps, 'onChange'> {
   fontWeight?: 'bold' | number | string;
 }
 
+const gradientTabSelectedStyles = (theme: { palette: { info: { main: string } } }) => ({
+  backgroundColor: 'transparent',
+  backgroundImage: `linear-gradient(90deg, ${PrimaryThemeColor}, ${theme.palette.info.main})`,
+  color: WhiteColor,
+  border: 'none',
+  '& .MuiTab-iconWrapper, & .MuiSvgIcon-root, & .MuiTab-wrapper': {
+    color: WhiteColor,
+  },
+});
+
 const StyledShTabs = styled(Tabs, {
   shouldForwardProp: prop => prop !== 'highlightVariant' && prop !== 'highlightColor' && prop !== 'fontSize' && prop !== 'fontWeight',
 })<IShTabs>(({ theme, highlightVariant = 'button', fontSize = theme.typography.body2.fontSize, fontWeight = 'inherit', highlightColor = PrimaryThemeColor }) => ({
@@ -274,7 +284,7 @@ export const DashboardTabs = (props: IShTabs) => <StyledDashboardTabs {...props}
 
 const StyledShTabsV2 = styled(Tabs, {
   shouldForwardProp: prop => prop !== 'highlightVariant' && prop !== 'highlightColor' && prop !== 'fontSize' && prop !== 'fontWeight',
-})<IShTabs>(({ theme, fontSize = theme.typography.body2.fontSize, fontWeight = 'inherit', highlightColor = theme.palette.primary.main }) => ({
+})<IShTabs>(({ theme, fontSize = theme.typography.body2.fontSize, fontWeight = 'inherit', highlightColor = PrimaryThemeColor }) => ({
   backgroundColor: 'transparent',
   borderRadius: '25px',
   display: 'inline-flex',
@@ -322,9 +332,15 @@ const StyledShTabsV2 = styled(Tabs, {
       color: highlightColor,
       border: `1px solid ${highlightColor}`,
     },
+    '&.MuiShGradientTab-root.Mui-selected': {
+      ...gradientTabSelectedStyles(theme),
+    },
     transition: 'all 0.3s ease-in-out',
     '&:hover': {
       backgroundColor: theme.palette.action.hover,
+    },
+    '&.MuiShGradientTab-root.Mui-selected:hover': {
+      ...gradientTabSelectedStyles(theme),
     },
   },
   '& .MuiTab-root:first-of-type': {
@@ -343,7 +359,10 @@ interface IShGradientTab extends TabProps {
   to?: string;
 }
 
-export const ShGradientTab = styled((props: IShGradientTab) => <Tab disableRipple {...props} />)(({ theme }) => ({
+export const ShGradientTab = styled(Tab, {
+  name: 'ShGradientTab',
+  slot: 'root',
+})(({ theme }) => ({
   padding: theme.spacing(1, 1.5),
   transition: 'all 0.4s ease-in-out',
   color: theme.palette.text.primary,
@@ -354,14 +373,14 @@ export const ShGradientTab = styled((props: IShGradientTab) => <Tab disableRippl
     backgroundColor: theme.palette.action.hover,
   },
   '&&.Mui-selected': {
-    backgroundImage: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.info.main})`,
-    color: theme.palette.common.white,
-    border: 'none',
-    '& .MuiTab-wrapper': {
-      color: theme.palette.common.white,
-    },
+    ...gradientTabSelectedStyles(theme),
+  },
+  '&&.Mui-selected:hover': {
+    ...gradientTabSelectedStyles(theme),
   },
 }));
+
+ShGradientTab.defaultProps = { disableRipple: true };
 
 interface IShMuiLink extends Omit<LinkProps, 'component'> {
   noUnderline?: boolean;

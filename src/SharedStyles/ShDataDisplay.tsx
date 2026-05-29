@@ -365,7 +365,6 @@ export const ShChip = styled(
     padding: padding,
     fontSize: fontSize,
     width: 'fit-content',
-    alignSelf: 'flex-start',
     maxWidth: maxWidth || '100%',
     border: borderColor ? `1px solid ${borderColor}` : '',
   };

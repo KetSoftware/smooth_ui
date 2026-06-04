@@ -1,4 +1,4 @@
-import ReactQuill from 'react-quill';
+import ReactQuill from 'react-quill-new';
 import styled from '@emotion/styled';
 
 export const ShReactQuillStyled = styled(ReactQuill)`

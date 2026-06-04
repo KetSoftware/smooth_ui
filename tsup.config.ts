@@ -14,7 +14,7 @@ export default defineConfig({
     'react-dom',
     'react/jsx-runtime',
     'react-router-dom',
-    'react-quill',
+    'react-quill-new',
     'date-fns',
     '@emotion/react',
     '@emotion/styled',

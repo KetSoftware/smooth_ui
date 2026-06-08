@@ -317,17 +317,19 @@ interface ISquareChipProps extends ChipProps {
   borderColor?: string;
   hideBoxShadow?: boolean;
   gradient?: string;
+  /** Center the chip within a flex parent (sets alignSelf: center). */
+  center?: boolean;
 }
 
 export const ShChip = styled(
   (props: ISquareChipProps) => {
-    const { customSize, ...restProps } = props;
+    const { customSize, center: _center, ...restProps } = props;
     return <Chip {...restProps} />;
   },
   {
-    shouldForwardProp: prop => prop !== 'bgColor' && prop !== 'textColor' && prop !== 'borderRadius' && prop !== 'customSize' && prop !== 'maxWidth' && prop !== 'borderColor' && prop !== 'hideBoxShadow' && prop !== 'gradient',
+    shouldForwardProp: prop => prop !== 'bgColor' && prop !== 'textColor' && prop !== 'borderRadius' && prop !== 'customSize' && prop !== 'maxWidth' && prop !== 'borderColor' && prop !== 'hideBoxShadow' && prop !== 'gradient' && prop !== 'center',
   }
-)(({ theme, bgColor, textColor, borderRadius, customSize, maxWidth, borderColor, hideBoxShadow, gradient }) => {
+)(({ theme, bgColor, textColor, borderRadius, customSize, maxWidth, borderColor, hideBoxShadow, gradient, center }) => {
   let padding, fontSize;
 
   switch (customSize) {
@@ -366,6 +368,13 @@ export const ShChip = styled(
     fontSize: fontSize,
     width: 'fit-content',
     maxWidth: maxWidth || '100%',
+    display: 'inline-flex',
+    justifyContent: 'center',
+    ...(center ? { alignSelf: 'center' } : {}),
+    '& .MuiChip-label': {
+      textAlign: 'center',
+      ...(maxWidth ? { width: '100%' } : {}),
+    },
     border: borderColor ? `1px solid ${borderColor}` : '',
   };
 });

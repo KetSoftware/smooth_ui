@@ -317,7 +317,7 @@ interface ISquareChipProps extends ChipProps {
   borderColor?: string;
   hideBoxShadow?: boolean;
   gradient?: string;
-  /** Center the chip within a flex parent (sets alignSelf: center). */
+  /** When false, do not center the chip in flex parents (default: centered). */
   center?: boolean;
 }
 
@@ -364,18 +364,32 @@ export const ShChip = styled(
     background: gradient || bgColor,
     color: textColor,
     borderRadius: borderRadius || '4px',
-    padding: padding,
-    fontSize: fontSize,
     width: 'fit-content',
     maxWidth: maxWidth || '100%',
     display: 'inline-flex',
+    alignItems: 'center',
+    alignSelf: center === false ? 'flex-start' : 'center',
     justifyContent: 'center',
-    ...(center ? { alignSelf: 'center' } : {}),
+    height: 'auto',
+    border: borderColor ? `1px solid ${borderColor}` : '',
     '& .MuiChip-label': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      lineHeight: 1.25,
+      padding,
+      fontSize,
       textAlign: 'center',
       ...(maxWidth ? { width: '100%' } : {}),
     },
-    border: borderColor ? `1px solid ${borderColor}` : '',
+    '& .MuiChip-icon': {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    '& .MuiChip-avatar': {
+      display: 'flex',
+      alignItems: 'center',
+    },
   };
 });
 

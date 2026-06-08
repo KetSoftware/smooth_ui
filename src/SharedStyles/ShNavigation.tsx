@@ -355,11 +355,7 @@ const StyledShTabsV2 = styled(Tabs, {
 
 export const ShTabsV2 = (props: IShTabs) => <StyledShTabsV2 {...props} />;
 
-interface IShGradientTab extends TabProps {
-  to?: string;
-}
-
-export const ShGradientTab = styled(Tab, {
+const StyledShGradientTab = styled(Tab, {
   name: 'ShGradientTab',
   slot: 'root',
 })(({ theme }) => ({
@@ -380,7 +376,10 @@ export const ShGradientTab = styled(Tab, {
   },
 }));
 
-ShGradientTab.defaultProps = { disableRipple: true };
+StyledShGradientTab.defaultProps = { disableRipple: true };
+
+/** Preserve MUI Tab polymorphic props (e.g. component={Link} to=...). */
+export const ShGradientTab = StyledShGradientTab as typeof Tab;
 
 interface IShMuiLink extends Omit<LinkProps, 'component'> {
   noUnderline?: boolean;

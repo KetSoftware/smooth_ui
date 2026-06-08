@@ -12,10 +12,19 @@ export const ShDarkGreen = '#4CAF50';
 // export const BorderColorLight = '#EBEFF2';
 // export const BorderColorLight = '#0000001f';
 export const BorderColorLight = '#ebebeb';
-export const BorderColorDark = '#474748';
+/** Dark mode borders — subtle slate, not harsh grey */
+export const BorderColorDark = '#2F3A4D';
 export const SHMenuBoxShadow = '0 0px 8px rgba(0, 0, 0, 0.1)';
+export const SHMenuBoxShadowDark = '0 8px 24px rgba(0, 0, 0, 0.35)';
 export const TextPrimary = '#111111';
-export const DarkModeBackground = '#2B2B2B';
+/** App canvas — deep slate blue, not pure black */
+export const DarkModeBackground = '#171C26';
+/** Cards, panels, table surfaces */
+export const DarkModeSurface = '#1E2533';
+/** Menus, popovers, elevated controls */
+export const DarkModeSurfaceElevated = '#262E3F';
+export const DarkModeTextPrimary = '#E8EDF5';
+export const DarkModeTextSecondary = '#9AA8BC';
 // This controls overall background color of the app // dont delete this comment
 export const LightModeBackground = '#ffffff';
 export const WhiteColor = '#FFFFFF';
@@ -45,7 +54,7 @@ export const ShLightGradientToBottom = ` #ffffff`;
 export const HoverTranslateBy = '1px -1px';
 
 export const AppLightBackground = `linear-gradient(rgba(0, 0, 0, 0.018) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(0, 0, 0, 0.018) 1.5px, transparent 1.5px)`;
-export const AppDarkBackground = `linear-gradient(rgba(255, 255, 255, 0.05) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1.5px, transparent 1.5px)`;
+export const AppDarkBackground = `linear-gradient(rgba(255, 255, 255, 0.022) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1.5px, transparent 1.5px)`;
 
 /**
  * On hover elevation and translation animation style constant.

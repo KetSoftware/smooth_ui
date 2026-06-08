@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Avatar, AvatarProps, Chip, ChipProps, Divider, ListItemButton, Stack, Table, TableCell, TableContainer, TableProps, TableRow, TableRowProps, Typography, TableHead, TableBody, TypographyProps } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ResourceTypography } from './ResourceTypography';
-import { BorderColorDark, BorderColorLight, DarkModeBackground, MUIGrey, PaperBorderRadius, PrimaryThemeColorLight, WhiteColor } from './styleConstants';
+import { BorderColorDark, BorderColorLight, MUIGrey, PaperBorderRadius, PrimaryThemeColorLight, WhiteColor } from './styleConstants';
 import { DataGrid, DataGridProps } from '@mui/x-data-grid';
 
 type ColorType = 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'transparent';
@@ -154,13 +154,13 @@ export const ShTableRow = styled((props: IShTableRow) => <TableRow {...props} />
   shouldForwardProp: prop => prop !== 'cursor' && prop !== 'hoverGrey',
 })(({ theme, cursor, hoverGrey = false }) => ({
   cursor: cursor,
-  backgroundColor: theme.palette.mode === 'light' ? WhiteColor : DarkModeBackground,
+  backgroundColor: theme.palette.mode === 'light' ? WhiteColor : theme.palette.background.paper,
   '& th': {
     fontWeight: 500,
     position: 'sticky',
     top: 0,
     zIndex: 2,
-    backgroundColor: theme.palette.mode === 'light' ? '#f8f9fa' : DarkModeBackground,
+    backgroundColor: theme.palette.mode === 'light' ? '#f8f9fa' : theme.palette.grey[800],
     color: theme.palette.text.secondary,
     '&.select-header': {
       left: 0,
@@ -173,7 +173,7 @@ export const ShTableRow = styled((props: IShTableRow) => <TableRow {...props} />
   '&:hover': {
     ...(hoverGrey
       ? {
-          backgroundColor: theme.palette.mode === 'light' ? '#f5f5f5' : DarkModeBackground,
+          backgroundColor: theme.palette.mode === 'light' ? '#f5f5f5' : theme.palette.action.hover,
         }
       : {}),
     '& .on-hover': {
@@ -208,7 +208,7 @@ export const RowSelectCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export const CollapsibleTableRow = styled(TableRow)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'light' ? WhiteColor : DarkModeBackground,
+  backgroundColor: theme.palette.mode === 'light' ? WhiteColor : theme.palette.background.paper,
   justifyItems: 'right',
   display: 'none',
   [theme.breakpoints.up('sm')]: {

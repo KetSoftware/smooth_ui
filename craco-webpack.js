@@ -1,4 +1,13 @@
 const path = require('path');
+const fs = require('fs');
+
+/*
+  Packages that must resolve to a SINGLE instance shared by the app and smooth-ui.
+  smooth-ui is consumed via a file: symlink, so without these aliases webpack resolves its
+  externalized imports to smooth_ui/node_modules — a second copy. Duplicate copies break
+  React-context based wiring (e.g. MUI's ToggleButtonGroup/ToggleButton, ThemeProvider).
+*/
+const SINGLETON_PACKAGES = ['react', 'react-dom', '@emotion/react', '@emotion/styled', 'react-router', 'react-router-dom', '@mui/material', '@mui/icons-material', '@mui/x-data-grid', '@mui/x-date-pickers'];
 
 function applyCracoWebpackPatches(config, options = {}) {
   const appRoot = options.appRoot || process.cwd();
@@ -16,14 +25,17 @@ function applyCracoWebpackPatches(config, options = {}) {
   config.resolve.plugins = (config.resolve.plugins || []).filter(
     (p) => !(p instanceof ModuleScopePlugin)
   );
+  const singletonAliases = {};
+  for (const pkg of SINGLETON_PACKAGES) {
+    const pkgPath = path.join(appRoot, 'node_modules', pkg);
+    // Only alias packages the app actually has, so consumers without e.g. x-date-pickers still resolve.
+    if (fs.existsSync(pkgPath)) {
+      singletonAliases[pkg] = pkgPath;
+    }
+  }
   config.resolve.alias = {
     ...config.resolve.alias,
-    react: path.join(appRoot, 'node_modules/react'),
-    'react-dom': path.join(appRoot, 'node_modules/react-dom'),
-    '@emotion/react': path.join(appRoot, 'node_modules/@emotion/react'),
-    '@emotion/styled': path.join(appRoot, 'node_modules/@emotion/styled'),
-    'react-router': path.join(appRoot, 'node_modules/react-router'),
-    'react-router-dom': path.join(appRoot, 'node_modules/react-router-dom'),
+    ...singletonAliases,
   };
   config.resolve.symlinks = false;
   config.module.rules.push({

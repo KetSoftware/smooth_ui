@@ -4,6 +4,8 @@ export * from './constants/survey-scale';
 export * from './utils/avatarText';
 export * from './types/tableHeaders';
 export { useIsSmScreen } from './hooks/useIsSmScreen';
+export { useDelayedLoader } from './hooks/useDelayedLoader';
+export type { UseDelayedLoaderOptions } from './hooks/useDelayedLoader';
 
 export * from './SharedComponents/ContactInfo';
 export { getNivoTheme, getNivoColors } from './SharedComponents/Nivo/NivoTheme';

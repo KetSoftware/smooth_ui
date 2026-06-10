@@ -269,32 +269,30 @@ interface ShCheckmarkProps {
 }
 
 export const ShCheckmark: FC<ShCheckmarkProps> = ({ items }) => {
-  return (
-    <>
-      {items.map((item, index) => {
-        const trimmedItem = item.trim();
-        const isNegative = trimmedItem.startsWith('~');
-        const displayText = trimmedItem.replace(/^[-~]/, '').trim(); // Removin leading - or ~
+  return <>
+    {items.map((item, index) => {
+      const trimmedItem = item.trim();
+      const isNegative = trimmedItem.startsWith('~');
+      const displayText = trimmedItem.replace(/^[-~]/, '').trim(); // Removin leading - or ~
 
-        return (
-          displayText && (
-            <li key={index} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-              <Stack direction='row' spacing={1}>
-                {isNegative ? (
-                  <CloseIcon color='error' fontSize='small' /> // Red X for items starting with ~
-                ) : (
-                  <CheckIcon color='success' fontSize='small' /> // Green check for items starting with -
-                )}
-                <ResourceTypography variant='caption' gutterBottom>
-                  {displayText}
-                </ResourceTypography>
-              </Stack>
-            </li>
-          )
-        );
-      })}
-    </>
-  );
+      return (
+        displayText && (
+          <li key={index} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+            <Stack direction='row' spacing={1}>
+              {isNegative ? (
+                <CloseIcon color='error' fontSize='small' /> // Red X for items starting with ~
+              ) : (
+                <CheckIcon color='success' fontSize='small' /> // Green check for items starting with -
+              )}
+              <ResourceTypography variant='caption' gutterBottom>
+                {displayText}
+              </ResourceTypography>
+            </Stack>
+          </li>
+        )
+      );
+    })}
+  </>;
 };
 
 // export const ShChip = styled((props: ISquareChipProps) => <Chip {...props} />, {

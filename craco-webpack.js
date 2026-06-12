@@ -45,6 +45,16 @@ function applyCracoWebpackPatches(config, options = {}) {
       fullySpecified: false,
     },
   });
+  /*
+    With resolve.symlinks=false, smooth-ui resolves under node_modules, which webpack's
+    filesystem cache treats as immutable (snapshot.managedPaths). Rebuilding smooth-ui's
+    dist then keeps serving the stale cached copy. Exclude smooth-ui from managedPaths so
+    its rebuilds are picked up by content snapshotting.
+  */
+  config.snapshot = {
+    ...config.snapshot,
+    managedPaths: [/^(.+?[\\/]node_modules[\\/](?!@smoothhiring[\\/]smooth-ui([\\/]|$))(@[^\\/]+[\\/])?[^\\/]+)/],
+  };
 }
 
 module.exports = { applyCracoWebpackPatches };

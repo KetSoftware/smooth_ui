@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Stack } from '@mui/material';
+import { DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Stack } from '@mui/material';
 import { IConfirmationDialog } from './ConfirmationDialogModel';
 import { ShButton, ShDialog } from '../../shStyleExports';
 
@@ -22,15 +22,13 @@ export const ConfirmationDialog = ({ onCancel, onConfirm, contentText, title, is
         aria-labelledby='title'
         aria-describedby='sub_title'
       >
-        <DialogTitle id='title' textAlign='center'>
-          <Box alignSelf='right'>
-            {title ?? 'Confirm'}
-            {isShowCloseIcon && (
-              <IconButton onClick={handleClose}>
-                <CloseIcon />
-              </IconButton>
-            )}
-          </Box>
+        <DialogTitle id='title' textAlign='center' sx={{ position: 'relative', pr: isShowCloseIcon ? 6 : undefined }}>
+          {title ?? 'Confirm'}
+          {isShowCloseIcon && (
+            <IconButton onClick={handleClose} aria-label='Close dialog' sx={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)' }}>
+              <CloseIcon />
+            </IconButton>
+          )}
         </DialogTitle>
         <DialogContent dividers>
           <DialogContentText id='sub_title' whiteSpace='break-spaces'>
@@ -49,7 +47,7 @@ export const ConfirmationDialog = ({ onCancel, onConfirm, contentText, title, is
                 Start Onboarding
               </ShButton>
             )}
-            <ShButton variant='contained' color={confirmButtonColor} size='small' onClick={onConfirm} disabled={isConfirmDisabled}>
+            <ShButton variant='contained' color={confirmButtonColor} size='small' disableElevation onClick={onConfirm} disabled={isConfirmDisabled}>
               {confirmButtonLabel ?? 'Confirm'}
             </ShButton>
           </Stack>

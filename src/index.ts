@@ -10,6 +10,7 @@ export type { UseDelayedLoaderOptions } from './hooks/useDelayedLoader';
 export * from './SharedComponents/ContactInfo';
 export { getNivoTheme, getNivoColors } from './SharedComponents/Nivo/NivoTheme';
 export * from './SharedComponents/ShTypeahead';
+export * from './SharedComponents/ShMultiSelect/ShMultiSelect';
 export { default as ShRightDrawer } from './SharedComponents/ShRightDrawer/ShRightDrawer';
 export * from './SharedComponents/ShRightDrawer/ShRightDrawerModel';
 export * from './SharedComponents/PasswordValidator';

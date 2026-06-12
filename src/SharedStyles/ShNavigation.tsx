@@ -285,6 +285,7 @@ export const DashboardTabs = (props: IShTabs) => <StyledDashboardTabs {...props}
 const StyledShTabsV2 = styled(Tabs, {
   shouldForwardProp: prop => prop !== 'highlightVariant' && prop !== 'highlightColor' && prop !== 'fontSize' && prop !== 'fontWeight',
 })<IShTabs>(({ theme, fontSize = theme.typography.body2.fontSize, fontWeight = 'inherit', highlightColor = PrimaryThemeColor }) => ({
+  minHeight: 'unset',
   backgroundColor: 'transparent',
   borderRadius: '25px',
   display: 'inline-flex',
@@ -297,6 +298,7 @@ const StyledShTabsV2 = styled(Tabs, {
   },
   '& .MuiTabs-list, & .MuiTabs-flexContainer': {
     overflow: 'visible',
+    alignItems: 'center',
     paddingLeft: theme.spacing(0.25),
     paddingRight: theme.spacing(0.25),
     gap: theme.spacing(0.5),

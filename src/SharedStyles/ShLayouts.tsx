@@ -228,3 +228,89 @@ export const DesktopOnlyStack = styled(Stack)(({ theme }) => ({
 export const ShStack = styled(Stack)(({ theme }) => ({
   background: theme.palette.background.default,
 }));
+
+/** Tabs + inline search field row (job pickers, filter bars). */
+export const ShTabsSearchRow = styled(Stack)(({ theme }) => ({
+  flexDirection: 'row',
+  alignItems: 'center',
+  flexWrap: 'wrap',
+  gap: theme.spacing(2),
+}));
+
+export const ShTabsSearchRowField = styled(Box)(({ theme }) => ({
+  flex: 1,
+  minWidth: 200,
+  display: 'flex',
+  alignItems: 'center',
+  '& .MuiTextField-root': {
+    margin: 0,
+    width: '100%',
+  },
+}));
+
+export const ShScrollList = styled(Stack)(({ theme }) => ({
+  gap: theme.spacing(1),
+  minHeight: 300,
+  maxHeight: 400,
+  overflow: 'auto',
+  paddingTop: theme.spacing(1),
+}));
+
+export const ShBorderedScrollPanel = styled(Box)(({ theme }) => ({
+  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: theme.shape.borderRadius,
+  minHeight: 300,
+  maxHeight: 400,
+  overflow: 'auto',
+}));
+
+export const ShListSelectHeader = styled(Stack)(({ theme }) => ({
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: theme.spacing(0.5, 1),
+  borderBottom: `1px solid ${theme.palette.divider}`,
+  position: 'sticky',
+  top: 0,
+  backgroundColor: theme.palette.background.paper,
+  zIndex: 1,
+}));
+
+export const ShListItemRow = styled(Stack)(({ theme }) => ({
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: theme.spacing(1),
+  padding: theme.spacing(0.5, 1),
+  cursor: 'pointer',
+  '&:hover': {
+    backgroundColor: theme.palette.action.hover,
+  },
+}));
+
+export const ShMetaLabel = styled(Stack)(({ theme }) => ({
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: theme.spacing(0.5),
+  '& .MuiSvgIcon-root': {
+    fontSize: 16,
+    color: theme.palette.text.secondary,
+  },
+}));
+
+/** Responsive card grid (talent pool, dashboards). */
+export const ShCardGrid = styled(Box)(({ theme }) => ({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+  gap: theme.spacing(2),
+  [theme.breakpoints.down('sm')]: {
+    gridTemplateColumns: '1fr',
+  },
+}));
+
+export const ShInlinePaginationFooter = styled(Stack)(({ theme }) => ({
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginTop: theme.spacing(2),
+  paddingTop: theme.spacing(1),
+  borderTop: `1px solid ${theme.palette.divider}`,
+}));

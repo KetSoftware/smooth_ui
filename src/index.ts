@@ -11,6 +11,7 @@ export * from './SharedComponents/ContactInfo';
 export { getNivoTheme, getNivoColors } from './SharedComponents/Nivo/NivoTheme';
 export * from './SharedComponents/ShTypeahead';
 export * from './SharedComponents/ShMultiSelect/ShMultiSelect';
+export * from './SharedComponents/ShSingleSelect/ShSingleSelect';
 export { default as ShRightDrawer } from './SharedComponents/ShRightDrawer/ShRightDrawer';
 export * from './SharedComponents/ShRightDrawer/ShRightDrawerModel';
 export * from './SharedComponents/PasswordValidator';

@@ -1,4 +1,7 @@
 import { useCallback } from 'react';
+import CancelIcon from '@mui/icons-material/Cancel';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import { DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Stack } from '@mui/material';
 import { IConfirmationDialog } from './ConfirmationDialogModel';
@@ -8,6 +11,10 @@ export const ConfirmationDialog = ({ onCancel, onConfirm, contentText, title, is
   const handleClose = useCallback(() => {
     onDialogClose ? onDialogClose() : (onCancel as () => void)?.();
   }, [onDialogClose, onCancel]);
+
+  const confirmIcon =
+    confirmButtonColor === 'error' ? <DeleteOutlineIcon fontSize='small' /> : <CheckCircleIcon fontSize='small' />;
+
   return (
     <>
       <ShDialog
@@ -35,19 +42,19 @@ export const ConfirmationDialog = ({ onCancel, onConfirm, contentText, title, is
             {contentText ?? 'Are you sure!'}
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Stack direction='row' justifyContent={isOnlyOk ? 'center' : 'space-between'} width='100%'>
+        <DialogActions sx={{ px: 2, py: 1.5, gap: 1, justifyContent: isOnlyOk ? 'center' : 'flex-end' }}>
+          <Stack direction='row' spacing={1} justifyContent={isOnlyOk ? 'center' : 'flex-end'} width='100%'>
             {!isOnlyOk && (
-              <ShButton size='small' onClick={onCancel} disabled={isCancelDisabled}>
+              <ShButton variant='outlined' onClick={onCancel} disabled={isCancelDisabled} startIcon={<CancelIcon fontSize='small' />}>
                 {cancelButtonLabel ?? 'Cancel'}
               </ShButton>
             )}
             {showExtraButton && (
-              <ShButton size='small' variant='outlined' onClick={onExtraButtonClick}>
+              <ShButton variant='outlined' onClick={onExtraButtonClick}>
                 Start Onboarding
               </ShButton>
             )}
-            <ShButton variant='contained' color={confirmButtonColor} size='small' disableElevation onClick={onConfirm} disabled={isConfirmDisabled}>
+            <ShButton variant='contained' color={confirmButtonColor} disableElevation onClick={onConfirm} disabled={isConfirmDisabled} startIcon={confirmIcon}>
               {confirmButtonLabel ?? 'Confirm'}
             </ShButton>
           </Stack>

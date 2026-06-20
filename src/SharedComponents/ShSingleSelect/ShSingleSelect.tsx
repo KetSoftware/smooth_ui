@@ -35,8 +35,8 @@ export type ShSingleSelectProps<T extends string | number = string | number> = {
   fullWidth?: boolean;
   id?: string;
   minSearchLength?: number;
-  /** `input` — type in the main field; `panel` — search box inside dropdown (static lists). */
-  searchPlacement?: 'input' | 'panel';
+  /** `input` — type in the main field (async search); `panel` — search box inside dropdown; `none` — static list, no search. */
+  searchPlacement?: 'input' | 'panel' | 'none';
   renderOptionStart?: (option: ShMultiSelectOption<T>) => ReactNode;
   renderValueAvatar?: (option: ShMultiSelectOption<T>) => ReactElement | null;
   emptyMessage?: string;
@@ -129,8 +129,9 @@ export function ShSingleSelect<T extends string | number = string | number>({
   const [focused, setFocused] = useState(false);
   const [internalSearch, setInternalSearch] = useState('');
 
-  const resolvedSearchPlacement = searchPlacement ?? (onSearchChange ? 'input' : 'panel');
+  const resolvedSearchPlacement = searchPlacement ?? (onSearchChange ? 'input' : 'none');
   const searchInMainInput = resolvedSearchPlacement === 'input';
+  const showPanelSearch = resolvedSearchPlacement === 'panel';
   const search = inputValue ?? internalSearch;
 
   const optionMap = useMemo(() => new Map(options.map(o => [o.value, o])), [options]);
@@ -156,10 +157,10 @@ export function ShSingleSelect<T extends string | number = string | number>({
   }, [open, searchInMainInput]);
 
   useEffect(() => {
-    if (!searchInMainInput) {
+    if (showPanelSearch) {
       onSearchChange?.(internalSearch);
     }
-  }, [internalSearch, onSearchChange, searchInMainInput]);
+  }, [internalSearch, onSearchChange, showPanelSearch]);
 
   const handleSelect = (optionValue: T) => {
     if (disabled) return;
@@ -412,7 +413,7 @@ export function ShSingleSelect<T extends string | number = string | number>({
           modifiers={[{ name: 'offset', options: { offset: [0, 4] } }]}
         >
           <DropdownPanel sx={{ width: anchorRef.current?.offsetWidth ?? 320 }}>
-            {!searchInMainInput && (
+            {showPanelSearch && (
               <Box px={1.25} pt={1.25} pb={0.5}>
                 <ShTextFieldV2
                   size='small'

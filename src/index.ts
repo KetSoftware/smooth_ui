@@ -40,3 +40,7 @@ export { default as ShReactQuill } from './SharedComponents/ShReactQuill/ShReact
 export * from './SharedComponents/ShReactQuill/ShReactQuill.styled';
 export * from './SharedComponents/ShReactQuill/ShReactQuillConstants';
 export * from './SharedComponents/Filters';
+export * from './SharedComponents/ShMetricCard/ShMetricCard';
+export * from './SharedComponents/ShFilterBar/ShFilterBar';
+export * from './SharedComponents/ShKanban/ShKanban';
+export * from './SharedComponents/ShActivityTimeline/ShActivityTimeline';

@@ -588,57 +588,133 @@ interface IShTextField {
   maxWidth?: string;
   isResizable?: boolean;
   isReducedPadding?: boolean;
+  /** `compact` = desk forms/tables; `dense` = shortest height (login, tight layouts). */
+  density?: 'default' | 'compact' | 'dense';
 }
 
+const shTextFieldShouldForwardProp = (prop: PropertyKey) =>
+  !['borderRadius', 'maxWidth', 'isResizable', 'isReducedPadding', 'density'].includes(String(prop));
+
+const shTextFieldDensityStyles = (density: IShTextField['density']) => {
+  switch (density) {
+    case 'dense':
+      return {
+        resolvedRadius: '6px',
+        borderWidth: '1px',
+        minHeight: '28px',
+        inputFontSize: '13px',
+        inputPadding: '4px 10px',
+        multilinePadding: '6px 10px',
+        selectPaddingY: '4px',
+        labelTransform: 'translate(10px, 4px) scale(1)',
+        phonePadding: '4px 10px',
+      };
+    case 'compact':
+      return {
+        resolvedRadius: '6px',
+        borderWidth: '1px',
+        minHeight: '32px',
+        inputFontSize: '13px',
+        inputPadding: '6px 10px',
+        multilinePadding: '8px 10px',
+        selectPaddingY: '6px',
+        labelTransform: 'translate(10px, 6px) scale(1)',
+        phonePadding: '6px 10px',
+      };
+    default:
+      return {
+        resolvedRadius: '10px',
+        borderWidth: '2px',
+        minHeight: '36px',
+        inputFontSize: undefined as string | undefined,
+        inputPadding: undefined as string | undefined,
+        multilinePadding: undefined as string | undefined,
+        selectPaddingY: undefined as string | undefined,
+        labelTransform: 'translate(14px, 6px) scale(1)',
+        phonePadding: '8px 14px',
+      };
+  }
+};
+
 const StyledShTextFieldV2 = styled(TextField, {
-  shouldForwardProp: prop => prop !== 'borderRadius' && prop !== 'maxWidth' && prop !== 'isResizable' && prop !== 'isReducedPadding',
-})<IShTextField>(({ theme, borderRadius = '10px', maxWidth = 'unset', isResizable = false, isReducedPadding = false }) => ({
-  '& .MuiOutlinedInput-root': {
-    minHeight: '36px',
-    borderRadius: borderRadius,
-    maxWidth: maxWidth,
-    transition: 'all 0.3s ease',
-    '& fieldset': {
-      border: `2px solid ${theme.palette.grey[400]}`,
-      transition: 'all 0.3s ease',
+  shouldForwardProp: shTextFieldShouldForwardProp,
+})<IShTextField>(({ theme, borderRadius, maxWidth = 'unset', isResizable = false, density = 'default' }) => {
+  const d = shTextFieldDensityStyles(density);
+  const isReduced = density === 'compact' || density === 'dense';
+  const resolvedRadius = borderRadius ?? d.resolvedRadius;
+
+  return {
+    '&.sh-text-field-v2': {
+      '& .MuiOutlinedInput-root': {
+        minHeight: d.minHeight,
+        borderRadius: resolvedRadius,
+        maxWidth,
+        transition: 'all 0.3s ease',
+        '& fieldset, & .MuiOutlinedInput-notchedOutline': {
+          border: `${d.borderWidth} solid ${theme.palette.grey[400]}`,
+          transition: 'all 0.3s ease',
+        },
+        '&:hover fieldset, &:hover .MuiOutlinedInput-notchedOutline': {
+          borderColor: theme.palette.primary.main,
+        },
+        '&.Mui-focused fieldset, &.Mui-focused .MuiOutlinedInput-notchedOutline': {
+          borderColor: theme.palette.primary.main,
+          borderWidth: d.borderWidth,
+        },
+        '& .MuiOutlinedInput-input, & .MuiOutlinedInput-inputSizeSmall': {
+          color: theme.palette.text.primary,
+          ...(d.inputFontSize && { fontSize: d.inputFontSize, padding: d.inputPadding }),
+        },
+        '& .MuiOutlinedInput-inputMultiline': {
+          ...(d.inputFontSize && { fontSize: d.inputFontSize, padding: d.multilinePadding }),
+        },
+        '& .MuiSelect-select': {
+          ...(d.inputFontSize && {
+            fontSize: d.inputFontSize,
+            minHeight: 'unset !important',
+            paddingTop: d.selectPaddingY,
+            paddingBottom: d.selectPaddingY,
+          }),
+        },
+        '& .MuiInputAdornment-root': {
+          ...(isReduced && { '& .MuiSvgIcon-root': { fontSize: '18px' } }),
+        },
+        '& .phone-number': {
+          border: 'none',
+          outline: 'none !important',
+          padding: d.phonePadding,
+          background: 'inherit',
+          color: 'inherit',
+        },
+      },
+      '& .MuiFormLabel-root': {
+        fontWeight: 400,
+        color: theme.palette.text.secondary,
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: 0,
+        ...(d.inputFontSize && { fontSize: d.inputFontSize }),
+        '&.Mui-focused': {
+          color: theme.palette.primary.main,
+        },
+        // Static in-field label for text inputs; allow MUI shrink for date/select when InputLabelProps.shrink is set.
+        '&.MuiFormLabel-animated:not(.MuiInputLabel-shrink)': {
+          transform: d.labelTransform,
+        },
+      },
+      '& .MuiFormHelperText-root': {
+        ...(isReduced && { fontSize: '11px', marginTop: '4px' }),
+      },
+      '& textarea': {
+        resize: isResizable ? 'vertical' : 'none',
+      },
     },
-    '&:hover fieldset': {
-      borderColor: theme.palette.primary.main,
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: theme.palette.primary.main,
-      borderWidth: '2px',
-    },
-    '& .MuiOutlinedInput-input': {
-      color: theme.palette.text.primary,
-    },
-    '& .phone-number': {
-      border: 'none',
-      outline: 'none !important',
-      padding: '8px 14px',
-      background: 'inherit',
-      color: 'inherit',
-    },
-  },
-  '& .MuiFormLabel-root': {
-    fontWeight: 500,
-    color: theme.palette.text.secondary,
-    display: 'flex',
-    alignItems: 'center',
-    '&.Mui-focused': {
-      color: theme.palette.primary.main,
-    },
-    '&.MuiFormLabel-animated': {
-      transform: 'translate(14px, 6px) scale(1)',
-    },
-  },
-  '& textarea': {
-    resize: isResizable ? 'vertical' : 'none',
-  },
-}));
+  };
+});
 
 type ShTextFieldV2Props = {
   [key: string]: any;
+  density?: 'default' | 'compact' | 'dense';
   onChange?: (event: any) => void;
   onClick?: (event: any) => void;
   onBlur?: (event: any) => void;
@@ -647,7 +723,14 @@ type ShTextFieldV2Props = {
   onKeyPress?: (event: any) => void;
 } & IShTextField;
 
-export const ShTextFieldV2 = (props: ShTextFieldV2Props) => <StyledShTextFieldV2 {...props} />;
+export const ShTextFieldV2 = ({ density = 'default', size, className, ...props }: ShTextFieldV2Props) => (
+  <StyledShTextFieldV2
+    density={density}
+    size={size ?? (density === 'default' ? undefined : 'small')}
+    className={['sh-text-field-v2', className].filter(Boolean).join(' ')}
+    {...props}
+  />
+);
 
 const StyledShDatePickerV2 = styled(DatePicker, {
   shouldForwardProp: prop => prop !== 'borderRadius' && prop !== 'maxWidth' && prop !== 'isResizable' && prop !== 'isReducedPadding',

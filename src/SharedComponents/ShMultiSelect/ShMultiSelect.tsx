@@ -395,7 +395,7 @@ export function ShMultiSelect<T extends string | number = string | number>({
     <ClickAwayListener onClickAway={close}>
       <Box width={fullWidth ? '100%' : 'auto'}>
         <Box ref={anchorRef}>
-          <ShTextFieldV2
+          <ShTextFieldV2 density='compact'
             id={fieldId}
             label={label}
             fullWidth={fullWidth}
@@ -468,7 +468,7 @@ export function ShMultiSelect<T extends string | number = string | number>({
             <DropdownPanel sx={{ width: anchorRef.current?.offsetWidth ?? 320 }}>
               {searchEnabled && (
                 <Box px={1.25} pt={1.25} pb={0.5}>
-                  <ShTextFieldV2
+                  <ShTextFieldV2 density='compact'
                     size='small'
                     fullWidth
                     placeholder='Search...'

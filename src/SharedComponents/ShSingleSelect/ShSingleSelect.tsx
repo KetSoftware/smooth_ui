@@ -293,7 +293,7 @@ export function ShSingleSelect<T extends string | number = string | number>({
       <Box width={fullWidth ? '100%' : 'auto'} id={fieldId}>
         <Box ref={anchorRef}>
           {searchInMainInput ? (
-            <ShTextFieldV2
+            <ShTextFieldV2 density='compact'
               inputRef={inputRef}
               label={label}
               placeholder={placeholder}
@@ -333,7 +333,7 @@ export function ShSingleSelect<T extends string | number = string | number>({
               }}
             />
           ) : (
-            <ShTextFieldV2
+            <ShTextFieldV2 density='compact'
               label={label}
               fullWidth={fullWidth}
               size='small'
@@ -415,7 +415,7 @@ export function ShSingleSelect<T extends string | number = string | number>({
           <DropdownPanel sx={{ width: anchorRef.current?.offsetWidth ?? 320 }}>
             {showPanelSearch && (
               <Box px={1.25} pt={1.25} pb={0.5}>
-                <ShTextFieldV2
+                <ShTextFieldV2 density='compact'
                   size='small'
                   fullWidth
                   placeholder='Search...'

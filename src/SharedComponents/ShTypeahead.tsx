@@ -39,5 +39,5 @@ export function ShTypeahead<T, Multiple extends false = false, DisableClearable 
 export function ShTypeahead<T, Multiple extends true = true, DisableClearable extends boolean | undefined = false, FreeSolo extends boolean | undefined = false>(props: ShMultiTypeaheadProps<T, DisableClearable, FreeSolo>): JSX.Element;
 export function ShTypeahead<T, Multiple extends boolean | undefined = false, DisableClearable extends boolean | undefined = false, FreeSolo extends boolean | undefined = false>({ label, placeholder, helperText, ListboxProps, renderInput, ...rest }: ShSingleTypeaheadProps<T, DisableClearable, FreeSolo> | ShMultiTypeaheadProps<T, DisableClearable, FreeSolo>) {
   const listboxProps = ListboxProps || AutocompletePopoverProps;
-  return <Autocomplete {...(rest as BaseAutocompleteProps<T, Multiple, DisableClearable, FreeSolo>)} ListboxProps={listboxProps} renderInput={renderInput || (params => <ShTextFieldV2 {...params} label={label} placeholder={placeholder} helperText={helperText} fullWidth size='small' />)} />;
+  return <Autocomplete {...(rest as BaseAutocompleteProps<T, Multiple, DisableClearable, FreeSolo>)} ListboxProps={listboxProps} renderInput={renderInput || (params => <ShTextFieldV2 {...params} density='compact' label={label} placeholder={placeholder} helperText={helperText} fullWidth size='small' />)} />;
 }

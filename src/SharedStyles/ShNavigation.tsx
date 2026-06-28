@@ -82,69 +82,81 @@ export const MaterialUISwitch = (props: SwitchProps) => <StyledMaterialUISwitch 
 type IShSwitchProps = Omit<SwitchProps, 'onChange'> & {
   color?: SwitchProps['color'];
   checkedColor?: string;
+  /** Compact toggle for dense forms (default `medium`). */
+  size?: 'medium' | 'small';
   onChange?: (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
 };
 
+const SH_SWITCH_DIMS = {
+  medium: { width: 42, height: 26, thumb: 22, margin: 2, translateX: 16 },
+  small: { width: 34, height: 20, thumb: 16, margin: 2, translateX: 14 },
+} as const;
+
 const StyledShSwitch = styled(
-  ({ checkedColor, ...props }: IShSwitchProps) => <Switch focusVisibleClassName='.Mui-focusVisible' disableRipple {...props} />,
-  { shouldForwardProp: prop => prop !== 'checkedColor' }
-)(({ theme, checkedColor = '#65C466' }) => ({
-  width: 42,
-  height: 26,
-  padding: 0,
-  '& .MuiSwitch-switchBase': {
+  ({ checkedColor, size = 'medium', ...props }: IShSwitchProps) => (
+    <Switch focusVisibleClassName='.Mui-focusVisible' disableRipple {...props} />
+  ),
+  { shouldForwardProp: prop => prop !== 'checkedColor' && prop !== 'size' }
+)(({ theme, checkedColor = '#65C466', size = 'medium' }) => {
+  const dims = SH_SWITCH_DIMS[size];
+  return {
+    width: dims.width,
+    height: dims.height,
     padding: 0,
-    margin: 2,
-    transitionDuration: '300ms',
-    '&.Mui-checked': {
-      transform: 'translateX(16px)',
-      color: '#fff',
-      '& + .MuiSwitch-track': {
-        backgroundColor: checkedColor,
-        opacity: 1,
-        border: 0,
-        ...theme.applyStyles('dark', {
+    '& .MuiSwitch-switchBase': {
+      padding: 0,
+      margin: dims.margin,
+      transitionDuration: '300ms',
+      '&.Mui-checked': {
+        transform: `translateX(${dims.translateX}px)`,
+        color: '#fff',
+        '& + .MuiSwitch-track': {
           backgroundColor: checkedColor,
+          opacity: 1,
+          border: 0,
+          ...theme.applyStyles('dark', {
+            backgroundColor: checkedColor,
+          }),
+        },
+        '&.Mui-disabled + .MuiSwitch-track': {
+          opacity: 0.5,
+        },
+      },
+      '&.Mui-focusVisible .MuiSwitch-thumb': {
+        color: '#33cf4d',
+        border: '6px solid #fff',
+      },
+      '&.Mui-disabled .MuiSwitch-thumb': {
+        color: theme.palette.grey[100],
+        ...theme.applyStyles('dark', {
+          color: theme.palette.grey[600],
         }),
       },
       '&.Mui-disabled + .MuiSwitch-track': {
-        opacity: 0.5,
+        opacity: 0.7,
+        ...theme.applyStyles('dark', {
+          opacity: 0.3,
+        }),
       },
     },
-    '&.Mui-focusVisible .MuiSwitch-thumb': {
-      color: '#33cf4d',
-      border: '6px solid #fff',
+    '& .MuiSwitch-thumb': {
+      boxSizing: 'border-box',
+      width: dims.thumb,
+      height: dims.thumb,
     },
-    '&.Mui-disabled .MuiSwitch-thumb': {
-      color: theme.palette.grey[100],
+    '& .MuiSwitch-track': {
+      borderRadius: dims.height / 2,
+      backgroundColor: '#E9E9EA',
+      opacity: 1,
+      transition: theme.transitions.create(['background-color'], {
+        duration: 500,
+      }),
       ...theme.applyStyles('dark', {
-        color: theme.palette.grey[600],
+        backgroundColor: '#39393D',
       }),
     },
-    '&.Mui-disabled + .MuiSwitch-track': {
-      opacity: 0.7,
-      ...theme.applyStyles('dark', {
-        opacity: 0.3,
-      }),
-    },
-  },
-  '& .MuiSwitch-thumb': {
-    boxSizing: 'border-box',
-    width: 22,
-    height: 22,
-  },
-  '& .MuiSwitch-track': {
-    borderRadius: 26 / 2,
-    backgroundColor: '#E9E9EA',
-    opacity: 1,
-    transition: theme.transitions.create(['background-color'], {
-      duration: 500,
-    }),
-    ...theme.applyStyles('dark', {
-      backgroundColor: '#39393D',
-    }),
-  },
-}));
+  };
+});
 
 export const ShSwitch = (props: IShSwitchProps) => <StyledShSwitch {...props} />;
 

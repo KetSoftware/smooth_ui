@@ -9,3 +9,6 @@ export * from './SharedStyles/ShLayouts';
 export * from './SharedStyles/ShNavigation';
 export * from './SharedStyles/ShFeedback';
 export * from './SharedStyles/ShStepperParts';
+export * from './SharedStyles/createSmoothTheme';
+export * from './SharedStyles/SmoothGlobalStyles';
+export * from './SharedStyles/AppShell.styled';

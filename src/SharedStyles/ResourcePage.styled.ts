@@ -67,6 +67,19 @@ export const ResourceHeroBody = styled(Typography)(({ theme }) => ({
   },
 }));
 
+/** Standard page title — matches ATS Typography variant="h5" usage. */
+export const ShPageTitle = styled(Typography)(({ theme }) => ({
+  ...theme.typography.h5,
+  fontWeight: theme.typography.fontWeightRegular,
+  color: theme.palette.text.primary,
+}));
+
+/** Standard page subtitle / description. */
+export const ShPageDescription = styled(Typography)(({ theme }) => ({
+  ...theme.typography.body2,
+  color: theme.palette.text.secondary,
+}));
+
 /** Spaced stack for CTA block – theme spacing, no inline pt/pb. */
 export const ResourceCTAStack = styled(Stack)(({ theme }) => ({
   paddingTop: theme.spacing(2.5),

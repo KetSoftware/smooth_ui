@@ -723,14 +723,20 @@ type ShTextFieldV2Props = {
   onKeyPress?: (event: any) => void;
 } & IShTextField;
 
-export const ShTextFieldV2 = ({ density = 'default', size, className, ...props }: ShTextFieldV2Props) => (
-  <StyledShTextFieldV2
-    density={density}
-    size={size ?? (density === 'default' ? undefined : 'small')}
-    className={['sh-text-field-v2', className].filter(Boolean).join(' ')}
-    {...props}
-  />
-);
+export const ShTextFieldV2 = ({ density = 'default', size, className, helperText, ...props }: ShTextFieldV2Props) => {
+  const normalizedHelperText =
+    helperText == null || (typeof helperText === 'string' && helperText.trim() === '') ? undefined : helperText;
+
+  return (
+    <StyledShTextFieldV2
+      density={density}
+      size={size ?? (density === 'default' ? undefined : 'small')}
+      className={['sh-text-field-v2', className].filter(Boolean).join(' ')}
+      helperText={normalizedHelperText}
+      {...props}
+    />
+  );
+};
 
 const StyledShDatePickerV2 = styled(DatePicker, {
   shouldForwardProp: prop => prop !== 'borderRadius' && prop !== 'maxWidth' && prop !== 'isResizable' && prop !== 'isReducedPadding',

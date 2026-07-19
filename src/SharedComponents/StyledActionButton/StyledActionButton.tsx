@@ -371,7 +371,9 @@ const StyledActionButtonBase = styled(Button, {
   }
 );
 
-export type StyledActionButtonProps = ButtonProps &
+// Omit `component` so intersecting a loose ElementType does not widen onClick/onDrag* to `any`
+// (that broke ATS `tsc --noEmit` after the StyledActionButton migration).
+export type StyledActionButtonProps = Omit<ButtonProps, 'component'> &
   ActionIconProps & {
     to?: string;
     component?: React.ElementType;

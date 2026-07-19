@@ -371,9 +371,9 @@ const StyledActionButtonBase = styled(Button, {
   }
 );
 
-// Omit `component` so intersecting a loose ElementType does not widen onClick/onDrag* to `any`
-// (that broke ATS `tsc --noEmit` after the StyledActionButton migration).
-export type StyledActionButtonProps = Omit<ButtonProps, 'component'> &
+// Omit `component` / handlers so a loose ElementType does not widen click/drag props to `any`
+// (that broke ATS production `tsc --noEmit` after the StyledActionButton migration).
+export type StyledActionButtonProps = Omit<ButtonProps, 'component' | 'onClick' | 'onDragOver'> &
   ActionIconProps & {
     to?: string;
     component?: React.ElementType;
@@ -389,6 +389,8 @@ export type StyledActionButtonProps = Omit<ButtonProps, 'component'> &
     gradient?: boolean;
     bgColor?: string;
     nav?: boolean;
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+    onDragOver?: React.DragEventHandler<HTMLButtonElement>;
   };
 
 export const StyledActionButton = React.forwardRef<HTMLButtonElement, StyledActionButtonProps>(function StyledActionButton(

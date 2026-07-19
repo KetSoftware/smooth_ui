@@ -71,17 +71,52 @@ const ShToggleButtonGroupPill = (theme: Theme, minWidth: string | undefined, gap
   };
 };
 
+/** Square segmented control — joined buttons, no radius (apply questionnaire, etc.). */
+const ShToggleButtonGroupSegmented = (theme: Theme, minWidth: string | undefined) => {
+  return {
+    borderRadius: 0,
+    overflow: 'hidden',
+    '& .MuiToggleButtonGroup-grouped': {
+      borderRadius: '0 !important',
+    },
+    '& .MuiToggleButton-root': {
+      paddingLeft: theme.spacing(1.5),
+      paddingRight: theme.spacing(1.5),
+      paddingTop: theme.spacing(0.75),
+      paddingBottom: theme.spacing(0.75),
+      minWidth: minWidth || 'unset',
+      textTransform: 'none',
+      fontWeight: 500,
+      lineHeight: 1.25,
+      borderRadius: '0 !important',
+    },
+  };
+};
+
+type ShToggleButtonGroupVariant = 'default' | 'pill' | 'segmented';
+
 interface IShToggleButtonGroup {
   borderRadius?: number;
   minWidth?: string;
-  variant?: 'default' | 'pill';
+  variant?: ShToggleButtonGroupVariant;
   buttonsGap?: number;
 }
+
+const toggleVariantStyles = (theme: Theme, borderRadius: string | number, minWidth: string | undefined, variant: ShToggleButtonGroupVariant, buttonsGap: number) => {
+  switch (variant) {
+    case 'pill':
+      return ShToggleButtonGroupPill(theme, minWidth, buttonsGap);
+    case 'segmented':
+      return ShToggleButtonGroupSegmented(theme, minWidth);
+    default:
+      return ShToggleButtonGroupDefault(theme, borderRadius, minWidth);
+  }
+};
 
 const StyledShToggleButtonGroup = styled(ToggleButtonGroup, {
   shouldForwardProp: prop => prop !== 'borderRadius' && prop !== 'minWidth' && prop !== 'variant' && prop !== 'buttonsGap',
 })<IShToggleButtonGroup>(({ theme, borderRadius = ShBorderRadius, minWidth, variant = 'default', buttonsGap = 0 }) => ({
-  ...(variant === 'default' ? ShToggleButtonGroupDefault(theme, borderRadius, minWidth) : ShToggleButtonGroupPill(theme, minWidth, buttonsGap)),
+  ...toggleVariantStyles(theme, borderRadius, minWidth, variant, buttonsGap),
 }));
 
 type ShToggleButtonGroupProps = Omit<ToggleButtonGroupProps, 'onChange'> & {

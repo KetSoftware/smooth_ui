@@ -1,8 +1,8 @@
 import { Box, Stack, Tooltip, TooltipProps, Typography, useTheme } from '@mui/material';
-import { ReactNode } from 'react';
+import { Children, isValidElement, ReactElement, ReactNode } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { ShButton } from '../shStyleExports';
+import { StyledActionButton } from './StyledActionButton';
 
 export interface ShPaperTooltipProps {
   title: ReactNode;
@@ -18,6 +18,16 @@ export interface ShPaperTooltipProps {
   arrowLink?: string;
 }
 
+function childIsDisabled(child: ReactElement): boolean {
+  return Boolean((child.props as { disabled?: boolean }).disabled);
+}
+
+/**
+ * Paper-styled tooltip. Passes a single focusable child through to MUI Tooltip
+ * so MenuItem / Button keep working. Only wraps in a span when the child is
+ * disabled (disabled elements don't fire pointer events) or an onClick shim
+ * is needed on a non-element child.
+ */
 export function ShPaperTooltip({
   title,
   children,
@@ -51,10 +61,38 @@ export function ShPaperTooltip({
     content = (
       <Stack rowGap={1.25}>
         {content}
-        <ShButton endIcon={<ArrowForwardIosIcon fontSize='small' />} component={RouterLink} to={arrowLink} variant='outlined' color='inherit' size='small'>
+        <StyledActionButton endIcon={<ArrowForwardIosIcon fontSize='small' />} component={RouterLink} to={arrowLink} variant='outlined' color='inherit' size='small'>
           Read more
-        </ShButton>
+        </StyledActionButton>
       </Stack>
+    );
+  }
+
+  let trigger: ReactElement;
+  if (isValidElement(children)) {
+    const child = Children.only(children) as ReactElement;
+    // Disabled controls swallow events — wrap so the tooltip can still open.
+    // Otherwise pass the child through so MenuItem stays a direct Menu descendant.
+    if (childIsDisabled(child)) {
+      trigger = (
+        <Box component='span' sx={{ display: 'inline-flex', maxWidth: '100%' }} onClick={onClick}>
+          {child}
+        </Box>
+      );
+    } else if (onClick) {
+      trigger = (
+        <Box component='span' sx={{ display: 'inline-flex', maxWidth: '100%' }} onClick={onClick}>
+          {child}
+        </Box>
+      );
+    } else {
+      trigger = child;
+    }
+  } else {
+    trigger = (
+      <Box component='span' sx={{ display: 'inline-flex' }} onClick={onClick}>
+        {children}
+      </Box>
     );
   }
 
@@ -102,9 +140,7 @@ export function ShPaperTooltip({
         </Box>
       }
     >
-      <Box component='span' sx={{ display: 'inline-block' }} onClick={onClick}>
-        {children}
-      </Box>
+      {trigger}
     </Tooltip>
   );
 }

@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import { Stack, Typography, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { ShButton } from '../../shStyleExports';
 import ShRightDrawer from '../ShRightDrawer/ShRightDrawer';
+import { StyledActionButton } from '../StyledActionButton';
 
 const FilterSectionStack = styled(Stack)({});
 const FilterSectionLabel = styled(Typography)(({ theme }) => ({
@@ -53,11 +53,11 @@ const FilterFooterActions = styled(Stack)(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-const FilterClearButton = styled(ShButton)({
+const FilterClearButton = styled(StyledActionButton)({
   minWidth: 88,
 });
 
-const FilterApplyButton = styled(ShButton)({
+const FilterApplyButton = styled(StyledActionButton)({
   minWidth: 100,
 });
 

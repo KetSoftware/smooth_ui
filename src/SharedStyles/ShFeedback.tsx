@@ -9,15 +9,24 @@ interface IShAlert extends AlertProps {
   marginTop?: number;
   marginBottom?: number;
   stickyAlert?: boolean;
+  fullWidth?: boolean;
 }
 
 export const ShAlert = styled(Alert, {
-  shouldForwardProp: prop => prop !== 'marginTop' && prop !== 'marginBottom' && prop !== 'stickyAlert',
-})<IShAlert>(({ theme, marginTop, marginBottom, stickyAlert }) => ({
+  shouldForwardProp: prop =>
+    prop !== 'marginTop' && prop !== 'marginBottom' && prop !== 'stickyAlert' && prop !== 'fullWidth',
+})<IShAlert>(({ theme, marginTop, marginBottom, stickyAlert, fullWidth }) => ({
   marginTop: marginTop ? theme.spacing(marginTop) : 0,
   marginBottom: marginBottom ? theme.spacing(marginBottom) : 0,
   display: 'flex',
   alignItems: 'center',
+  ...(fullWidth
+    ? {
+        width: '100%',
+        margin: 0,
+        boxSizing: 'border-box',
+      }
+    : {}),
   ...(stickyAlert
     ? {
         position: 'sticky',
@@ -47,11 +56,14 @@ const StyledShDialog = styled(Dialog, {
   shouldForwardProp: prop => prop !== 'actionsPlacement',
 })<IShDialogStyleProps>(({ theme, actionsPlacement = 'space-between' }) => ({
   '& .MuiDialogTitle-root': {
-    padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
-    '& .MuiButtonBase-root': {
+    position: 'relative',
+    padding: theme.spacing(2),
+    // Vertically center close IconButtons; keep inset from the paper edge.
+    '& > .MuiIconButton-root': {
       position: 'absolute',
-      right: '4px',
-      top: '4px',
+      right: theme.spacing(1),
+      top: '50%',
+      transform: 'translateY(-50%)',
     },
   },
   '& .MuiDialog-paper': {

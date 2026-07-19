@@ -5,9 +5,9 @@ import { Box, IconButton, Pagination, Stack, Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import { useIsSmScreen } from '../../hooks/useIsSmScreen';
 import { useState } from 'react';
-import { ShButton } from '../../shStyleExports';
 import { FooterWrapper } from '../../shStyleExports';
 import { StyledMenuItem } from '../../shStyleExports';
+import { StyledActionButton } from '../StyledActionButton';
 import { PageSizes } from '../../constants/ui';
 import { ITablePaginationFooterProps } from './TablePaginationFooterModel';
 
@@ -50,9 +50,9 @@ export const TablePaginationFooter = ({ total, page, pageSize, onPageChange, onP
         </Stack>
         {showPageSizeSelector && onPageSizeChange && (
           <>
-            <ShButton size='small' variant='contained' disableElevation onClick={e => setAnchorEl(e.currentTarget)} color='primary' endIcon={<ExpandMoreIcon />}>
+            <StyledActionButton size='small' variant='contained' disableElevation onClick={e => setAnchorEl(e.currentTarget)} color='primary' endIcon={<ExpandMoreIcon />}>
               {pageSize}
-            </ShButton>
+            </StyledActionButton>
             <Menu id='page-size-menu' aria-label='Page size' anchorEl={anchorEl} open={isPageSizeOpen} onClose={() => setAnchorEl(null)}>
               {pageSizeOptions.map(size => (
                 <StyledMenuItem

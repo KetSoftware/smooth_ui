@@ -23,6 +23,7 @@ export * from './SharedComponents/GradientChip';
 export * from './SharedComponents/ShLogo';
 export * from './SharedComponents/ConfirmationDialog/ConfirmationDialog';
 export * from './SharedComponents/ConfirmationDialog/ConfirmationDialogModel';
+export * from './SharedComponents/StyledActionButton';
 export * from './SharedComponents/TablePaginationFooter';
 export * from './SharedComponents/ShTooltip';
 export * from './SharedComponents/ShLoadingDots/ShLoadingDots';

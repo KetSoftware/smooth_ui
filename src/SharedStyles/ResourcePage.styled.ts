@@ -1,4 +1,5 @@
-import { Box, Button, FormControl, Stack, Typography, styled } from '@mui/material';
+import {Box, FormControl, Stack, Typography, styled} from '@mui/material';
+import { StyledActionButton } from '../SharedComponents/StyledActionButton';
 
 /** Section heading with optional icon – aligns with app section title patterns (Help, Settings). */
 export const ResourceSectionHeading = styled(Stack)(({ theme }) => ({
@@ -225,7 +226,7 @@ export const ResourceHeroCtaRow = styled(Stack)(({ theme }) => ({
   },
 }));
 
-/** Horizontal CTAs that wrap; use with ShButton (fit-content width by default). */
+/** Horizontal CTAs that wrap; use with StyledActionButton (fit-content width by default). */
 export const ResourceActionRow = styled(Stack)(({ theme }) => ({
   flexDirection: 'row',
   flexWrap: 'wrap',
@@ -281,7 +282,7 @@ export const ResourceStackPrimaryAction = styled(Box)(({ theme }) => ({
 }));
 
 /** Full-width picker in template category grids. */
-export const ResourceTemplateCardButton = styled(Button)(({ theme }) => ({
+export const ResourceTemplateCardButton = styled(StyledActionButton)(({ theme }) => ({
   width: '100%',
   justifyContent: 'flex-start',
   textAlign: 'left',

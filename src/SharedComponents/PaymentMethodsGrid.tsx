@@ -1,6 +1,7 @@
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import { Grid, Stack, Typography } from '@mui/material';
-import { ShButton, ShGreen, ShIconPrimary, ShPaper, ShSwitch } from '../shStyleExports';
+import { ShGreen, ShIconPrimary, ShPaper, ShSwitch } from '../shStyleExports';
+import { StyledActionButton } from './StyledActionButton';
 import { SwatchLabel } from './SwatchLabel';
 
 export interface PaymentMethodCardItem {
@@ -65,10 +66,11 @@ export const PaymentMethodsGrid = ({
                     disabled={!onSetDefault || disableSetDefault}
                   />
                   {showRemoveButton && onRemove && (
-                    <ShButton
+                    <StyledActionButton
                       variant='outlined'
                       color='error'
                       size='small'
+                      delete
                       disabled={disableRemove}
                       onClick={e => {
                         e.stopPropagation();
@@ -76,7 +78,7 @@ export const PaymentMethodsGrid = ({
                       }}
                     >
                       Remove
-                    </ShButton>
+                    </StyledActionButton>
                   )}
                 </Stack>
                 <Stack direction='row' alignItems='center' gap={1}>

@@ -2,8 +2,8 @@ import { ClickAwayListener, Stack, Tooltip, TooltipProps, styled, tooltipClasses
 import { useIsSmScreen } from '../hooks/useIsSmScreen';
 import { useState } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'; // Example icon
-import { ShButton } from '../shStyleExports';
 import { Link as RouterLink } from 'react-router-dom';
+import { StyledActionButton } from './StyledActionButton';
 
 interface IShTooltip {
   title: string | JSX.Element;
@@ -31,9 +31,9 @@ export const ShTooltip = ({ title, children, placement, showArrowIcon = false, a
       {title}
       {arrowLink ? (
         typeof arrowLink === 'string' ? (
-          <ShButton endIcon={<ArrowForwardIosIcon fontSize='small' />} component={RouterLink} to={arrowLink} variant='outlined' color='inherit' size='small'>
+          <StyledActionButton endIcon={<ArrowForwardIosIcon fontSize='small' />} component={RouterLink} to={arrowLink} variant='outlined' color='inherit' size='small'>
             Read more
-          </ShButton>
+          </StyledActionButton>
         ) : (
           arrowLink
         )

@@ -2,7 +2,8 @@ import { useState, MouseEvent, ReactNode } from 'react';
 import { Stack, Typography, Menu } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ExpandMore } from '@mui/icons-material';
-import { ShButton, StyledMenuItem } from '../../shStyleExports';
+import { StyledMenuItem } from '../../shStyleExports';
+import { StyledActionButton } from '../StyledActionButton';
 
 const FilterFieldLabel = styled(Typography)(({ theme }) => ({
   fontWeight: 600,
@@ -42,11 +43,11 @@ export const FilterDropdown = ({ label, value, options, onChange, renderTrigger,
   return (
     <Stack spacing={1.5}>
       <FilterFieldLabel variant='caption'>{label}</FilterFieldLabel>
-      <ShButton size='small' fullWidth endIcon={<ExpandMore />} onClick={handleOpen} aria-label={ariaLabel}>
+      <StyledActionButton size='small' fullWidth endIcon={<ExpandMore />} onClick={handleOpen} aria-label={ariaLabel}>
         <Stack direction='row' alignItems='center' spacing={0}>
           {renderTrigger(selectedOption)}
         </Stack>
-      </ShButton>
+      </StyledActionButton>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} transformOrigin={{ vertical: 'top', horizontal: 'left' }}>
         {options.map(option => (
           <StyledMenuItem key={option.value} className={option.value === value ? 'selected-item' : ''} onClick={() => handleSelect(option.value)}>

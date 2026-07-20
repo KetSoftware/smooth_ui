@@ -13,6 +13,9 @@ type ShTypeaheadSharedProps<T, DisableClearable extends boolean | undefined, Fre
   label?: string;
   placeholder?: string;
   helperText?: string;
+  /** Forwarded to default `ShTextFieldV2` when `renderInput` is omitted. */
+  appearance?: 'outlined' | 'inlaid';
+  density?: 'default' | 'compact' | 'dense';
   renderInput?: (params: any) => ReactNode;
   onInputChange?: (event: any, value: string, reason: any) => void;
   getOptionLabel?: (option: ShTypeaheadOption<T, FreeSolo>) => string;
@@ -37,7 +40,36 @@ type ShMultiTypeaheadProps<T, DisableClearable extends boolean | undefined, Free
 
 export function ShTypeahead<T, Multiple extends false = false, DisableClearable extends boolean | undefined = false, FreeSolo extends boolean | undefined = false>(props: ShSingleTypeaheadProps<T, DisableClearable, FreeSolo>): JSX.Element;
 export function ShTypeahead<T, Multiple extends true = true, DisableClearable extends boolean | undefined = false, FreeSolo extends boolean | undefined = false>(props: ShMultiTypeaheadProps<T, DisableClearable, FreeSolo>): JSX.Element;
-export function ShTypeahead<T, Multiple extends boolean | undefined = false, DisableClearable extends boolean | undefined = false, FreeSolo extends boolean | undefined = false>({ label, placeholder, helperText, ListboxProps, renderInput, ...rest }: ShSingleTypeaheadProps<T, DisableClearable, FreeSolo> | ShMultiTypeaheadProps<T, DisableClearable, FreeSolo>) {
+export function ShTypeahead<T, Multiple extends boolean | undefined = false, DisableClearable extends boolean | undefined = false, FreeSolo extends boolean | undefined = false>({
+  label,
+  placeholder,
+  helperText,
+  appearance,
+  density = 'compact',
+  ListboxProps,
+  renderInput,
+  ...rest
+}: ShSingleTypeaheadProps<T, DisableClearable, FreeSolo> | ShMultiTypeaheadProps<T, DisableClearable, FreeSolo>) {
   const listboxProps = ListboxProps || AutocompletePopoverProps;
-  return <Autocomplete {...(rest as BaseAutocompleteProps<T, Multiple, DisableClearable, FreeSolo>)} ListboxProps={listboxProps} renderInput={renderInput || (params => <ShTextFieldV2 {...params} density='compact' label={label} placeholder={placeholder} helperText={helperText} fullWidth size='small' />)} />;
+  return (
+    <Autocomplete
+      {...(rest as BaseAutocompleteProps<T, Multiple, DisableClearable, FreeSolo>)}
+      ListboxProps={listboxProps}
+      renderInput={
+        renderInput ||
+        (params => (
+          <ShTextFieldV2
+            {...params}
+            appearance={appearance}
+            density={density}
+            label={label}
+            placeholder={placeholder}
+            helperText={helperText}
+            fullWidth
+            size='small'
+          />
+        ))
+      }
+    />
+  );
 }

@@ -1,6 +1,22 @@
 import type { ChangeEvent, MouseEvent } from 'react';
-import { Box, Checkbox, CheckboxProps, Chip, CircularProgress, FormControlLabel, InputBase, RadioGroup, RadioGroupProps, TextField, ToggleButtonGroup, ToggleButtonGroupProps } from '@mui/material';
-import { styled, Theme } from '@mui/material/styles';
+import { useId } from 'react';
+import {
+  Box,
+  Checkbox,
+  CheckboxProps,
+  Chip,
+  CircularProgress,
+  FormControlLabel,
+  FormLabel,
+  InputBase,
+  RadioGroup,
+  RadioGroupProps,
+  Stack,
+  TextField,
+  ToggleButtonGroup,
+  ToggleButtonGroupProps,
+} from '@mui/material';
+import { alpha, styled, Theme } from '@mui/material/styles';
 import { DatePicker, DatePickerProps } from '@mui/x-date-pickers/DatePicker';
 import { BorderColorDark, BorderColorLight, ShBorderRadius, ShGreen } from './styleConstants';
 
@@ -382,10 +398,16 @@ interface IShTextField {
   isReducedPadding?: boolean;
   /** `compact` = desk forms/tables; `dense` = shortest height (login, tight layouts). */
   density?: 'default' | 'compact' | 'dense';
+  /**
+   * Visual chrome:
+   * - `outlined` — default bordered control
+   * - `inlaid` — quiet filled field (Frappe-like); border mostly on hover/focus
+   */
+  appearance?: 'outlined' | 'inlaid';
 }
 
 const shTextFieldShouldForwardProp = (prop: PropertyKey) =>
-  !['borderRadius', 'maxWidth', 'isResizable', 'isReducedPadding', 'density'].includes(String(prop));
+  !['borderRadius', 'maxWidth', 'isResizable', 'isReducedPadding', 'density', 'appearance'].includes(String(prop));
 
 const shTextFieldDensityStyles = (density: IShTextField['density']) => {
   switch (density) {
@@ -430,10 +452,111 @@ const shTextFieldDensityStyles = (density: IShTextField['density']) => {
 
 const StyledShTextFieldV2 = styled(TextField, {
   shouldForwardProp: shTextFieldShouldForwardProp,
-})<IShTextField>(({ theme, borderRadius, maxWidth = 'unset', isResizable = false, density = 'default' }) => {
+})<IShTextField>(({ theme, borderRadius, maxWidth = 'unset', isResizable = false, density = 'default', appearance = 'outlined' }) => {
   const d = shTextFieldDensityStyles(density);
   const isReduced = density === 'compact' || density === 'dense';
-  const resolvedRadius = borderRadius ?? d.resolvedRadius;
+  const isInlaid = appearance === 'inlaid';
+  const resolvedRadius = borderRadius ?? (isInlaid ? '8px' : d.resolvedRadius);
+  const inlaidBg =
+    theme.palette.mode === 'light' ? theme.palette.grey[100] : alpha(theme.palette.common.white, 0.08);
+  const inlaidBgHover =
+    theme.palette.mode === 'light' ? theme.palette.grey[200] : alpha(theme.palette.common.white, 0.12);
+
+  const sharedLabel = {
+    fontWeight: 400,
+    color: theme.palette.text.secondary,
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: 0,
+    ...(d.inputFontSize && { fontSize: d.inputFontSize }),
+    '&.Mui-focused': {
+      color: theme.palette.primary.main,
+    },
+  };
+
+  const sharedHelper = {
+    ...(isReduced && { fontSize: '11px', marginTop: '4px' }),
+  };
+
+  if (isInlaid) {
+    // MUI pattern: label outside + hiddenLabel → equal vertical padding, text naturally centered.
+    // https://mui.com/material-ui/react-text-field/#sizes
+    const inlaidHeight = density === 'dense' ? '28px' : density === 'compact' ? '32px' : '36px';
+    const inlaidPadY = density === 'dense' ? '5px' : density === 'compact' ? '7px' : '9px';
+    return {
+      '&.sh-text-field-v2': {
+        maxWidth,
+        '& .MuiFilledInput-root': {
+          borderRadius: `${resolvedRadius} !important`,
+          backgroundColor: `${inlaidBg} !important`,
+          border: 'none',
+          boxShadow: 'none',
+          overflow: 'hidden',
+          transition: 'background-color 0.15s ease, box-shadow 0.15s ease',
+          '&:before, &:after': {
+            display: 'none !important',
+            border: 'none !important',
+            content: 'none',
+          },
+          '&:hover:not(.Mui-disabled):not(.Mui-focused)': {
+            backgroundColor: `${inlaidBgHover} !important`,
+          },
+          '&.Mui-focused': {
+            backgroundColor: `${theme.palette.background.paper} !important`,
+            boxShadow: `inset 0 0 0 2px ${theme.palette.primary.main}`,
+          },
+          '&.Mui-error': {
+            boxShadow: `inset 0 0 0 2px ${theme.palette.error.main}`,
+          },
+          '&.Mui-disabled': {
+            backgroundColor:
+              theme.palette.mode === 'light'
+                ? `${theme.palette.grey[50]} !important`
+                : `${alpha(theme.palette.common.white, 0.04)} !important`,
+          },
+          '&:not(.MuiInputBase-multiline)': {
+            height: inlaidHeight,
+            minHeight: inlaidHeight,
+            maxHeight: inlaidHeight,
+          },
+          // hiddenLabel uses balanced padding — keep it equal so value text stays centered.
+          '& .MuiFilledInput-input': {
+            color: theme.palette.text.primary,
+            boxSizing: 'border-box',
+            ...(d.inputFontSize && { fontSize: d.inputFontSize, lineHeight: 1.3 }),
+            paddingTop: `${inlaidPadY} !important`,
+            paddingBottom: `${inlaidPadY} !important`,
+            paddingLeft: '12px',
+            paddingRight: '12px',
+          },
+          '& .MuiSelect-select': {
+            boxSizing: 'border-box',
+            display: 'flex',
+            alignItems: 'center',
+            ...(d.inputFontSize && {
+              fontSize: d.inputFontSize,
+              lineHeight: 1.3,
+              minHeight: 'unset !important',
+            }),
+            paddingTop: `${inlaidPadY} !important`,
+            paddingBottom: `${inlaidPadY} !important`,
+            paddingLeft: '12px',
+            paddingRight: '12px',
+          },
+          '& .MuiInputAdornment-root': {
+            marginTop: '0 !important',
+            height: '100%',
+            maxHeight: 'none',
+            ...(isReduced && { '& .MuiSvgIcon-root': { fontSize: '16px' } }),
+          },
+        },
+        '& .MuiFormHelperText-root': sharedHelper,
+        '& textarea': {
+          resize: isResizable ? 'vertical' : 'none',
+        },
+      },
+    };
+  }
 
   return {
     '&.sh-text-field-v2': {
@@ -480,23 +603,13 @@ const StyledShTextFieldV2 = styled(TextField, {
         },
       },
       '& .MuiFormLabel-root': {
-        fontWeight: 400,
-        color: theme.palette.text.secondary,
-        display: 'flex',
-        alignItems: 'center',
-        marginBottom: 0,
-        ...(d.inputFontSize && { fontSize: d.inputFontSize }),
-        '&.Mui-focused': {
-          color: theme.palette.primary.main,
-        },
+        ...sharedLabel,
         // Static in-field label for text inputs; allow MUI shrink for date/select when InputLabelProps.shrink is set.
         '&.MuiFormLabel-animated:not(.MuiInputLabel-shrink)': {
           transform: d.labelTransform,
         },
       },
-      '& .MuiFormHelperText-root': {
-        ...(isReduced && { fontSize: '11px', marginTop: '4px' }),
-      },
+      '& .MuiFormHelperText-root': sharedHelper,
       '& textarea': {
         resize: isResizable ? 'vertical' : 'none',
       },
@@ -507,6 +620,7 @@ const StyledShTextFieldV2 = styled(TextField, {
 type ShTextFieldV2Props = {
   [key: string]: any;
   density?: 'default' | 'compact' | 'dense';
+  appearance?: 'outlined' | 'inlaid';
   onChange?: (event: any) => void;
   onClick?: (event: any) => void;
   onBlur?: (event: any) => void;
@@ -515,18 +629,76 @@ type ShTextFieldV2Props = {
   onKeyPress?: (event: any) => void;
 } & IShTextField;
 
-export const ShTextFieldV2 = ({ density = 'default', size, className, helperText, ...props }: ShTextFieldV2Props) => {
+const InlaidFieldLabel = styled(FormLabel)(({ theme }) => ({
+  position: 'static',
+  transform: 'none',
+  fontSize: '12px',
+  fontWeight: 500,
+  lineHeight: 1.3,
+  color: theme.palette.text.secondary,
+  marginBottom: 0,
+  '&.Mui-focused': {
+    color: theme.palette.text.secondary,
+  },
+  '&.Mui-required:not(.Mui-error) > .MuiFormLabel-asterisk': {
+    color: theme.palette.error.main,
+  },
+}));
+
+export const ShTextFieldV2 = ({
+  density = 'default',
+  appearance = 'outlined',
+  size,
+  className,
+  helperText,
+  variant,
+  label,
+  id,
+  required,
+  fullWidth,
+  InputLabelProps,
+  ...props
+}: ShTextFieldV2Props) => {
   const normalizedHelperText =
     helperText == null || (typeof helperText === 'string' && helperText.trim() === '') ? undefined : helperText;
+  const isInlaid = appearance === 'inlaid';
+  const generatedId = useId();
+  const fieldId = id ?? (isInlaid && label != null ? generatedId : id);
+
+  const field = (
+    <StyledShTextFieldV2
+      {...props}
+      id={fieldId}
+      density={density}
+      appearance={appearance}
+      required={required}
+      fullWidth={fullWidth}
+      // Inlaid: filled + hiddenLabel (label rendered outside — MUI recommended for short filled fields).
+      variant={isInlaid ? 'filled' : variant ?? 'outlined'}
+      hiddenLabel={isInlaid || undefined}
+      label={isInlaid ? undefined : label}
+      InputLabelProps={isInlaid ? undefined : InputLabelProps}
+      size={size ?? (density === 'default' ? undefined : 'small')}
+      className={['sh-text-field-v2', isInlaid ? 'sh-text-field-v2--inlaid' : '', className].filter(Boolean).join(' ')}
+      helperText={normalizedHelperText}
+    />
+  );
+
+  if (!isInlaid) return field;
 
   return (
-    <StyledShTextFieldV2
-      density={density}
-      size={size ?? (density === 'default' ? undefined : 'small')}
-      className={['sh-text-field-v2', className].filter(Boolean).join(' ')}
-      helperText={normalizedHelperText}
-      {...props}
-    />
+    <Stack
+      className='sh-text-field-v2-wrap sh-text-field-v2-wrap--inlaid'
+      spacing={0.5}
+      sx={{ width: fullWidth ? '100%' : undefined, maxWidth: '100%' }}
+    >
+      {label != null && label !== false && label !== '' ? (
+        <InlaidFieldLabel htmlFor={fieldId} required={Boolean(required)}>
+          {label}
+        </InlaidFieldLabel>
+      ) : null}
+      {field}
+    </Stack>
   );
 };
 

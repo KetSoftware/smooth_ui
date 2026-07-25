@@ -16,6 +16,11 @@ export interface ShPaperTooltipProps {
   arrow?: boolean;
   showArrowIcon?: boolean;
   arrowLink?: string;
+  /** MUI Tooltip enter delay (ms). */
+  enterDelay?: number;
+  /** MUI Tooltip delay when moving between tooltips (ms). */
+  enterNextDelay?: number;
+  leaveDelay?: number;
 }
 
 function childIsDisabled(child: ReactElement): boolean {
@@ -40,6 +45,9 @@ export function ShPaperTooltip({
   arrow = true,
   showArrowIcon,
   arrowLink,
+  enterDelay,
+  enterNextDelay,
+  leaveDelay,
 }: ShPaperTooltipProps) {
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
@@ -103,6 +111,9 @@ export function ShPaperTooltip({
       open={open}
       onClose={onClose}
       onOpen={onOpen}
+      enterDelay={enterDelay}
+      enterNextDelay={enterNextDelay}
+      leaveDelay={leaveDelay}
       slotProps={{
         tooltip: {
           sx: {

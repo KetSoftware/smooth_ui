@@ -39,12 +39,50 @@ export const TablePaginationFooter = ({ total, page, pageSize, onPageChange, onP
         <Typography paddingLeft={3} variant='caption' fontWeight='bold'>
           {xOfY}&nbsp;of&nbsp;{total}
         </Typography>
-        <Pagination className='desktop-pagination' color='primary' showFirstButton showLastButton siblingCount={isSmScreen ? 0 : 0} boundaryCount={isSmScreen ? 0 : 2} count={totalPages} page={safePage} onChange={(_, pgNo) => onPageChange(pgNo)} />
+        <Pagination
+          className='desktop-pagination'
+          color='primary'
+          showFirstButton
+          showLastButton
+          siblingCount={isSmScreen ? 0 : 0}
+          boundaryCount={isSmScreen ? 0 : 2}
+          count={totalPages}
+          page={safePage}
+          onChange={(_, pgNo) => {
+            onPageChange(pgNo);
+            // Keep keyboard focus on the active page control after change (#1278).
+            window.requestAnimationFrame(() => {
+              const root = document.querySelector('.desktop-pagination');
+              const selected = root?.querySelector<HTMLElement>('.Mui-selected');
+              selected?.focus();
+            });
+          }}
+        />
         <Stack className='mobile-pagination' flexDirection='row'>
-          <IconButton disabled={firstPage} onClick={() => onPageChange(safePage - 1)}>
+          <IconButton
+            id='lms-table-pagination-prev'
+            aria-label='Previous page'
+            disabled={firstPage}
+            onClick={() => {
+              onPageChange(safePage - 1);
+              window.requestAnimationFrame(() =>
+                document.getElementById('lms-table-pagination-prev')?.focus()
+              );
+            }}
+          >
             <KeyboardArrowLeftIcon />
           </IconButton>
-          <IconButton disabled={lastPage} onClick={() => onPageChange(safePage + 1)}>
+          <IconButton
+            id='lms-table-pagination-next'
+            aria-label='Next page'
+            disabled={lastPage}
+            onClick={() => {
+              onPageChange(safePage + 1);
+              window.requestAnimationFrame(() =>
+                document.getElementById('lms-table-pagination-next')?.focus()
+              );
+            }}
+          >
             <KeyboardArrowRightIcon />
           </IconButton>
         </Stack>

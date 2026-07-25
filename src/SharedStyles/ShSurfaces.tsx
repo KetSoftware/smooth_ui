@@ -272,14 +272,16 @@ interface IShPaper extends PaperProps {
   minHeight?: string | number;
   borderRadius?: number;
   height?: string;
-  marginTop?: string;
-  marginBottom?: string;
+  marginTop?: string | number;
+  marginBottom?: string | number;
   flex?: number | string;
   noPadding?: boolean;
   overflow?: Overflow;
   width?: string;
   transElevateOnHover?: boolean;
   outlineOnHover?: boolean;
+  /** Keyboard focus ring for role=button / link papers (survives global outline:none). */
+  outlineOnFocus?: boolean;
   backgroundColor?: string;
   noBorderTop?: boolean;
   headerSection?: boolean;
@@ -304,6 +306,7 @@ export const ShPaper = styled(Paper, {
     prop !== 'overflow' &&
     prop !== 'transElevateOnHover' &&
     prop !== 'outlineOnHover' &&
+    prop !== 'outlineOnFocus' &&
     prop !== 'backgroundColor' &&
     prop !== 'noBorderTop' &&
     prop !== 'headerSection' &&
@@ -327,6 +330,7 @@ export const ShPaper = styled(Paper, {
     overflow = 'unset',
     transElevateOnHover = false,
     outlineOnHover = false,
+    outlineOnFocus = false,
     width = 'unset',
     backgroundColor = theme.palette.background.paper,
     noBorderTop = false,
@@ -392,6 +396,12 @@ export const ShPaper = styled(Paper, {
         outlineOffset: '-2px',
         transform: 'translateY(-1px)',
         boxShadow: theme.palette.mode === 'light' ? '0 4px 12px rgba(0, 0, 0, 0.1)' : '0 4px 12px rgba(255, 255, 255, 0.1)',
+      },
+    }),
+    ...(outlineOnFocus && {
+      '&:focus-visible': {
+        outline: `2px solid ${theme.palette.primary.main}`,
+        outlineOffset: '2px',
       },
     }),
   })

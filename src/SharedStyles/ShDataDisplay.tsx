@@ -313,7 +313,6 @@ interface ISquareChipProps extends ChipProps {
   customSize?: 'xsmall' | 'xs' | 'small' | 'medium' | 'large';
   maxWidth?: string;
   borderColor?: string;
-  hideBoxShadow?: boolean;
   gradient?: string;
   /** When false, do not center the chip in flex parents (default: centered). */
   center?: boolean;
@@ -325,9 +324,9 @@ export const ShChip = styled(
     return <Chip {...restProps} />;
   },
   {
-    shouldForwardProp: prop => prop !== 'bgColor' && prop !== 'textColor' && prop !== 'borderRadius' && prop !== 'customSize' && prop !== 'maxWidth' && prop !== 'borderColor' && prop !== 'hideBoxShadow' && prop !== 'gradient' && prop !== 'center',
+    shouldForwardProp: prop => prop !== 'bgColor' && prop !== 'textColor' && prop !== 'borderRadius' && prop !== 'customSize' && prop !== 'maxWidth' && prop !== 'borderColor' && prop !== 'gradient' && prop !== 'center',
   }
-)(({ theme, bgColor, textColor, borderRadius, customSize, maxWidth, borderColor, hideBoxShadow, gradient, center }) => {
+)(({ theme, bgColor, textColor, borderRadius, customSize, maxWidth, borderColor, gradient, center }) => {
   let padding, fontSize;
 
   switch (customSize) {
@@ -357,7 +356,8 @@ export const ShChip = styled(
   }
 
   return {
-    boxShadow: hideBoxShadow ? '' : '0px 2px 4px rgba(0, 0, 0, 0.1)',
+    boxShadow: 'none',
+    filter: 'none',
     backgroundColor: gradient ? 'transparent' : bgColor,
     background: gradient || bgColor,
     color: textColor,
@@ -370,6 +370,10 @@ export const ShChip = styled(
     justifyContent: 'center',
     height: 'auto',
     border: borderColor ? `1px solid ${borderColor}` : '',
+    '&:hover, &:focus, &:active, &.Mui-focusVisible': {
+      boxShadow: 'none',
+      filter: 'none',
+    },
     '& .MuiChip-label': {
       display: 'flex',
       alignItems: 'center',

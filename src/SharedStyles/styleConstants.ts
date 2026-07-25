@@ -9,6 +9,15 @@ export const PrimaryThemeColorLight = lighten(PrimaryThemeColor, 0.9);
 export const ShGreen = '#74C05A';
 export const shBlue = '#417EE3';
 export const ShDarkGreen = '#4CAF50';
+/** Modern amber-orange (Tailwind orange-600) — replaces muddy MUI `#ed6c02` on chips/badges. */
+export const ShWarningMain = '#ea580c';
+/** Softer orange-400 — chip hover / light accents (not neon `#ff9800`). */
+export const ShWarningLight = '#fb923c';
+/** Deeper orange-700 — solid Draft/filled chip surfaces with white label. */
+export const ShWarningDark = '#c2410c';
+/** Soft tint for outlined warning chips on paper. */
+export const ShWarningSoftBg = 'rgba(234, 88, 12, 0.08)';
+export const ShWarningSoftBorder = 'rgba(234, 88, 12, 0.32)';
 // export const BorderColorLight = '#EBEFF2';
 // export const BorderColorLight = '#0000001f';
 export const BorderColorLight = '#ebebeb';

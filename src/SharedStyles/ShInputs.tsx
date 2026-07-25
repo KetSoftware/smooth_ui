@@ -520,6 +520,7 @@ const StyledShTextFieldV2 = styled(TextField, {
             maxHeight: inlaidHeight,
           },
           // hiddenLabel uses balanced padding — keep it equal so value text stays centered.
+          // End padding must clear Autocomplete popup/clear and Select caret (#caret overlap).
           '& .MuiFilledInput-input': {
             color: theme.palette.text.primary,
             boxSizing: 'border-box',
@@ -529,6 +530,22 @@ const StyledShTextFieldV2 = styled(TextField, {
             paddingLeft: '12px',
             paddingRight: '12px',
           },
+          '&.MuiInputBase-adornedStart .MuiFilledInput-input': {
+            paddingLeft: '4px',
+          },
+          '&.MuiInputBase-adornedEnd .MuiFilledInput-input': {
+            paddingRight: '40px !important',
+          },
+          // Autocomplete popup caret is absolutely positioned; always reserve gutter
+          // (adornedEnd alone can miss when only popupIndicator is present).
+          '&.MuiAutocomplete-inputRoot .MuiFilledInput-input, &.MuiAutocomplete-inputRoot .MuiAutocomplete-input':
+            {
+              paddingRight: '40px !important',
+            },
+          '&.MuiAutocomplete-inputRoot.MuiAutocomplete-hasClearIcon .MuiFilledInput-input, &.MuiAutocomplete-inputRoot.MuiAutocomplete-hasClearIcon .MuiAutocomplete-input':
+            {
+              paddingRight: '68px !important',
+            },
           '& .MuiSelect-select': {
             boxSizing: 'border-box',
             display: 'flex',
@@ -541,13 +558,30 @@ const StyledShTextFieldV2 = styled(TextField, {
             paddingTop: `${inlaidPadY} !important`,
             paddingBottom: `${inlaidPadY} !important`,
             paddingLeft: '12px',
-            paddingRight: '12px',
+            // Always reserve caret gutter (Select icon is end-positioned)
+            paddingRight: '36px !important',
+          },
+          '&.MuiInputBase-adornedStart .MuiSelect-select': {
+            paddingLeft: '4px',
+          },
+          '& .MuiSelect-icon': {
+            right: 8,
+          },
+          '& .MuiAutocomplete-endAdornment': {
+            right: 4,
+            top: '50%',
+            transform: 'translateY(-50%)',
+            height: 'auto',
           },
           '& .MuiInputAdornment-root': {
             marginTop: '0 !important',
             height: '100%',
             maxHeight: 'none',
+            alignSelf: 'center',
             ...(isReduced && { '& .MuiSvgIcon-root': { fontSize: '16px' } }),
+          },
+          '& .MuiInputAdornment-positionEnd': {
+            marginLeft: 0,
           },
         },
         '& .MuiFormHelperText-root': sharedHelper,
@@ -590,8 +624,31 @@ const StyledShTextFieldV2 = styled(TextField, {
             paddingTop: d.selectPaddingY,
             paddingBottom: d.selectPaddingY,
           }),
+          // Clear Select caret so value text never sits under the icon
+          paddingRight: '36px !important',
+        },
+        '& .MuiSelect-icon': {
+          right: 8,
+        },
+        '&.MuiInputBase-adornedEnd .MuiOutlinedInput-input': {
+          paddingRight: '40px !important',
+        },
+        '&.MuiAutocomplete-inputRoot .MuiOutlinedInput-input, &.MuiAutocomplete-inputRoot .MuiAutocomplete-input':
+          {
+            paddingRight: '40px !important',
+          },
+        '&.MuiAutocomplete-inputRoot.MuiAutocomplete-hasClearIcon .MuiOutlinedInput-input, &.MuiAutocomplete-inputRoot.MuiAutocomplete-hasClearIcon .MuiAutocomplete-input':
+          {
+            paddingRight: '68px !important',
+          },
+        '& .MuiAutocomplete-endAdornment': {
+          right: 4,
+          top: '50%',
+          transform: 'translateY(-50%)',
+          height: 'auto',
         },
         '& .MuiInputAdornment-root': {
+          alignSelf: 'center',
           ...(isReduced && { '& .MuiSvgIcon-root': { fontSize: '18px' } }),
         },
         '& .phone-number': {

@@ -16,6 +16,7 @@ export const ConfirmationDialog = ({
   onDialogClose,
   confirmButtonLabel,
   confirmButtonColor = 'success',
+  confirmStartIcon,
   isCancelDisabled = false,
   isConfirmDisabled = false,
   disableBackdropClose = false,
@@ -80,6 +81,7 @@ export const ConfirmationDialog = ({
             confirm={confirmButtonColor !== 'error'}
             delete={confirmButtonColor === 'error'}
             disableElevation
+            startIcon={confirmStartIcon}
             onClick={onConfirm}
             disabled={isConfirmDisabled}
           >

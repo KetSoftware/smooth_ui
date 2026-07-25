@@ -30,10 +30,9 @@ const SecurePaymentsNotice: React.FC<SecurePaymentsNoticeProps> = ({ spacing = 1
                 </Typography>
               </>
             }
-            hideBoxShadow
           />
         )}
-        <ShChip borderRadius='15px' gradient={'linear-gradient(90deg, #16a34a 0%, #22c55e 100%)'} textColor={'#FFFFFF'} customSize='small' icon={<LockOutlinedIcon fontSize='small' color='inherit' />} label={'Secure payments'} hideBoxShadow />
+        <ShChip borderRadius='15px' gradient={'linear-gradient(90deg, #16a34a 0%, #22c55e 100%)'} textColor={'#FFFFFF'} customSize='small' icon={<LockOutlinedIcon fontSize='small' color='inherit' />} label={'Secure payments'} />
       </Stack>
       <Stack direction='row' spacing={1} alignItems='center' flexWrap='wrap' pl={1} pt={1}>
         <img src='https://cdn.simpleicons.org/visa/2357A4' height={24} alt='Visa' />

@@ -146,7 +146,7 @@ export const Inbox: React.FC<IInboxProps> = ({
                       <Typography variant='subtitle2' fontWeight={isSelected ? 600 : 500} color='text.primary' noWrap>
                         {senderName}
                       </Typography>
-                      {isNew && <ShChip hideBoxShadow label='New' size='small' customSize='xs' bgColor='#E8EAF6' textColor='#1976d2' />}
+                      {isNew && <ShChip label='New' size='small' customSize='xs' bgColor='#E8EAF6' textColor='#1976d2' />}
                     </Stack>
                     <Typography variant='caption' color='text.secondary'>
                       {format(new Date(message.received_at), 'MMM d')}

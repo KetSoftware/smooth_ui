@@ -158,6 +158,35 @@ const StyledActionButtonBase = styled(Button, {
       transition: 'all 0.2s ease-in-out',
       border: nav ? 'none' : `1.5px solid ${theme.palette.divider}`,
       boxSizing: 'border-box',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      ...(size === 'small'
+        ? {
+            minHeight: 32,
+            height: 32,
+            lineHeight: 1.2,
+            '& .MuiButton-startIcon, & .MuiButton-endIcon': {
+              display: 'inline-flex',
+              alignItems: 'center',
+              marginTop: 0,
+              marginBottom: 0,
+            },
+          }
+        : {}),
+      ...(size === 'xsmall'
+        ? {
+            minHeight: 28,
+            height: 28,
+            lineHeight: 1.2,
+            '& .MuiButton-startIcon, & .MuiButton-endIcon': {
+              display: 'inline-flex',
+              alignItems: 'center',
+              marginTop: 0,
+              marginBottom: 0,
+            },
+          }
+        : {}),
       ...(extraLarge
         ? {
             fontSize: theme.typography.button.fontSize,
@@ -214,7 +243,7 @@ const StyledActionButtonBase = styled(Button, {
         : {
             fontSize: '0.7rem',
             padding: theme.spacing(0.25, 0.75),
-            minHeight: 26,
+            minHeight: size === 'small' || size === 'xsmall' ? undefined : 26,
             borderRadius: 4,
           },
       ...(!nav && !gradient && !bgColor
@@ -249,6 +278,18 @@ const StyledActionButtonBase = styled(Button, {
           backgroundColor: theme.palette.action.disabledBackground,
           border: 'none',
         },
+      },
+      // True text CTAs — no divider border (base styles otherwise look outlined).
+      '&.MuiButton-text': {
+        border: 'none',
+        backgroundColor: 'transparent',
+        '&:hover': {
+          border: 'none',
+          backgroundColor: alpha(theme.palette.primary.main, 0.05),
+        },
+      },
+      '&.MuiButton-textInherit': {
+        color: theme.palette.text.primary,
       },
       // Match legacy ShBlueBtn: outlined kept the blue fill (only border used the outline class).
       '&.MuiButton-outlinedPrimary': {

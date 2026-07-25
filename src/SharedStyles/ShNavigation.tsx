@@ -1,5 +1,5 @@
 import type { ChangeEvent, ElementType, SyntheticEvent } from 'react';
-import { Drawer, Link, LinkProps, MenuItem, Switch, SwitchProps, Tabs, TabsProps, Tab, TabProps, Stack, Typography } from '@mui/material';
+import { Drawer, FormControlLabel, Link, LinkProps, MenuItem, Switch, SwitchProps, Tabs, TabsProps, Tab, TabProps, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { DarkModeBackground, PrimaryThemeColor, ShBorderRadius, ShOnHover, WhiteColor } from './styleConstants';
 
@@ -160,6 +160,17 @@ const StyledShSwitch = styled(
 
 export const ShSwitch = (props: IShSwitchProps) => <StyledShSwitch {...props} />;
 
+/** Label row with clear gap — ShSwitch has padding:0 so default FormControlLabel sits flush. */
+const ShSwitchFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+  marginLeft: 0,
+  marginRight: 0,
+  alignItems: 'center',
+  gap: theme.spacing(1.5),
+  '& .MuiFormControlLabel-label': {
+    marginLeft: 0,
+  },
+}));
+
 interface ShSwitchFieldProps extends IShSwitchProps {
   label: string;
   helperText?: string;
@@ -167,16 +178,16 @@ interface ShSwitchFieldProps extends IShSwitchProps {
 
 export const ShSwitchField = ({ label, helperText, ...props }: ShSwitchFieldProps) => {
   return (
-    <Stack direction='row' spacing={1} alignItems='center'>
-      <ShSwitch {...props} />
-      <Stack spacing={0.25}>
-        <Typography variant='body2'>{label}</Typography>
-        {helperText ? (
-          <Typography variant='caption' color='text.secondary'>
-            {helperText}
-          </Typography>
-        ) : null}
-      </Stack>
+    <Stack spacing={0.25}>
+      <ShSwitchFormControlLabel
+        control={<ShSwitch {...props} inputProps={{ ...(props.inputProps || {}), 'aria-label': label }} />}
+        label={<Typography variant='body2'>{label}</Typography>}
+      />
+      {helperText ? (
+        <Typography variant='caption' color='text.secondary' pl={6.5}>
+          {helperText}
+        </Typography>
+      ) : null}
     </Stack>
   );
 };

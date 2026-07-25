@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, ReactNode } from 'react';
 import type { TJustifyContent } from '../../layoutTypes';
 
 // More types can be added based on use cases.
@@ -17,6 +17,8 @@ export interface IConfirmationDialog extends IConfirmationDialogLabels {
   onCancel?: (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => void;
   onConfirm: (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => void;
   confirmButtonColor?: 'success' | 'error' | 'primary' | 'warning' | 'info' | 'inherit';
+  /** Optional start icon on the confirm action (LMS parity). */
+  confirmStartIcon?: ReactNode;
   isCancelDisabled?: boolean;
   isConfirmDisabled?: boolean;
   disableBackdropClose?: boolean;

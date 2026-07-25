@@ -15,6 +15,11 @@ import {
   SHMenuBoxShadow,
   SHMenuBoxShadowDark,
   ShGreen,
+  ShWarningDark,
+  ShWarningLight,
+  ShWarningMain,
+  ShWarningSoftBg,
+  ShWarningSoftBorder,
   WhiteColor,
   shBlue,
 } from './styleConstants';
@@ -65,6 +70,13 @@ export const createSmoothThemeOptions = (mode: PaletteMode): ThemeOptions => {
         main: isDark ? DarkModeTextSecondary : '#666666',
       },
       success: { main: ShGreen },
+      // Contemporary SaaS orange — softer/cleaner than MUI defaults (#ed6c02 / #ff9800 / #e65100).
+      warning: {
+        main: ShWarningMain,
+        light: ShWarningLight,
+        dark: ShWarningDark,
+        contrastText: WhiteColor,
+      },
     },
     typography: {
       fontFamily: 'Poppins, Roboto, sans-serif',
@@ -205,12 +217,43 @@ export const createSmoothThemeOptions = (mode: PaletteMode): ThemeOptions => {
         },
       },
       MuiChip: {
+        defaultProps: {
+          variant: 'outlined',
+        },
         styleOverrides: {
           root: {
             width: 'fit-content',
             maxWidth: '100%',
             alignSelf: 'flex-start',
+            boxShadow: 'none',
+            filter: 'none',
+            '&:hover, &:focus, &:active, &.Mui-focusVisible': {
+              boxShadow: 'none',
+              filter: 'none',
+            },
           },
+          // Soft tinted warning chips (outlined default) — readable fg on paper, no shadow.
+          colorWarning: ({ theme }) =>
+            theme.palette.mode === 'light'
+              ? {
+                  backgroundColor: ShWarningSoftBg,
+                  borderColor: ShWarningSoftBorder,
+                  color: ShWarningDark,
+                  '& .MuiChip-deleteIcon': {
+                    color: 'rgba(194, 65, 12, 0.72)',
+                    '&:hover': { color: ShWarningDark },
+                  },
+                  '&.MuiChip-filled': {
+                    backgroundColor: theme.palette.warning.main,
+                    color: theme.palette.warning.contrastText,
+                    borderColor: 'transparent',
+                    '& .MuiChip-deleteIcon': {
+                      color: 'rgba(255, 255, 255, 0.72)',
+                      '&:hover': { color: WhiteColor },
+                    },
+                  },
+                }
+              : {},
         },
       },
       MuiDialog: {

@@ -36,18 +36,6 @@ const CoverImage = styled('img')({
   display: 'block',
 });
 
-const CoverShade = styled(Box, {
-  shouldForwardProp: prop => prop !== 'shade',
-})<{ shade?: string }>(({ theme, shade }) => {
-  const base = shade || theme.palette.primary.light;
-  return {
-    position: 'absolute',
-    inset: 0,
-    backgroundImage: `linear-gradient(to top right, rgba(0,0,0,0.45), ${base})`,
-    pointerEvents: 'none',
-  };
-});
-
 const CoverContent = styled(Box)({
   position: 'relative',
   zIndex: 1,
@@ -99,7 +87,6 @@ export function ShMediaCover({
           decoding='async'
         />
       ) : null}
-      {imageUrl ? <CoverShade shade={shade} aria-hidden /> : null}
       <CoverContent>{children}</CoverContent>
     </ShMediaCoverRoot>
   );

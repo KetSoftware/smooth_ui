@@ -314,17 +314,18 @@ interface ISquareChipProps extends ChipProps {
   maxWidth?: string;
   borderColor?: string;
   gradient?: string;
+  hideBoxShadow?: boolean;
   /** When false, do not center the chip in flex parents (default: centered). */
   center?: boolean;
 }
 
 export const ShChip = styled(
   (props: ISquareChipProps) => {
-    const { customSize, center: _center, ...restProps } = props;
+    const { customSize, center: _center, hideBoxShadow: _hideBoxShadow, ...restProps } = props;
     return <Chip {...restProps} />;
   },
   {
-    shouldForwardProp: prop => prop !== 'bgColor' && prop !== 'textColor' && prop !== 'borderRadius' && prop !== 'customSize' && prop !== 'maxWidth' && prop !== 'borderColor' && prop !== 'gradient' && prop !== 'center',
+    shouldForwardProp: prop => prop !== 'bgColor' && prop !== 'textColor' && prop !== 'borderRadius' && prop !== 'customSize' && prop !== 'maxWidth' && prop !== 'borderColor' && prop !== 'gradient' && prop !== 'hideBoxShadow' && prop !== 'center',
   }
 )(({ theme, bgColor, textColor, borderRadius, customSize, maxWidth, borderColor, gradient, center }) => {
   let padding, fontSize;

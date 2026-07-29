@@ -8,6 +8,7 @@ import { alpha, styled, useTheme } from '@mui/material/styles';
 import { TransitionGroup } from 'react-transition-group';
 import { PrimaryThemeColor } from '../../SharedStyles/styleConstants';
 import { ShCheckbox, ShTextFieldV2 } from '../../shStyleExports';
+import { getSelectChipSx, getSelectTriggerFieldSx, getSelectTriggerRootSx, SelectFieldDensity, TriggerChipArea } from '../selectTriggerShared';
 
 export type ShMultiSelectOption<T extends string | number = string | number> = {
   value: T;
@@ -43,30 +44,8 @@ export type ShMultiSelectProps<T extends string | number = string | number> = {
    * `inline` — always-visible checklist in a bordered panel (best for a few options, e.g. brands).
    */
   displayMode?: 'dropdown' | 'inline';
+  density?: SelectFieldDensity;
 };
-
-/** Same blue as ShTextFieldV2 hover/focus — applied on OutlinedInput root via InputProps.sx */
-const outlinedBorderSx = (active: boolean, showFocusRing: boolean) => ({
-  transition: 'box-shadow 0.2s ease',
-  '& fieldset': {
-    borderWidth: '2px',
-  },
-  '&:hover fieldset': {
-    borderColor: `${PrimaryThemeColor} !important`,
-  },
-  ...(active
-    ? {
-        '& fieldset': {
-          borderColor: `${PrimaryThemeColor} !important`,
-        },
-        ...(showFocusRing
-          ? {
-              boxShadow: `0 0 0 3px ${alpha(PrimaryThemeColor, 0.16)}`,
-            }
-          : {}),
-      }
-    : {}),
-});
 
 const CHIP_TRANSITION_MS = 280;
 
@@ -155,6 +134,7 @@ export function ShMultiSelect<T extends string | number = string | number>({
   id,
   fullWidth = true,
   displayMode = 'dropdown',
+  density = 'default',
 }: ShMultiSelectProps<T>) {
   const theme = useTheme();
   const generatedId = useId();
@@ -224,23 +204,7 @@ export function ShMultiSelect<T extends string | number = string | number>({
   const visibleChips = selectedOptions.slice(0, maxVisibleChips);
   const hiddenChipCount = Math.max(0, selectedOptions.length - maxVisibleChips);
 
-  const chipSx = (hasAvatar: boolean) => ({
-    height: hasAvatar ? 28 : 24,
-    borderRadius: '6px',
-    fontWeight: 500,
-    backgroundColor: alpha(PrimaryThemeColor, theme.palette.mode === 'light' ? 0.1 : 0.18),
-    color: PrimaryThemeColor,
-    border: `1px solid ${alpha(PrimaryThemeColor, 0.24)}`,
-    '& .MuiChip-avatar': {
-      width: 20,
-      height: 20,
-      marginLeft: theme.spacing(0.5),
-    },
-    '& .MuiChip-deleteIcon': {
-      color: alpha(PrimaryThemeColor, 0.65),
-      '&:hover': { color: PrimaryThemeColor },
-    },
-  });
+  const chipSx = (hasAvatar: boolean) => getSelectChipSx(theme, hasAvatar);
 
   const renderChips = () => {
     const chipTransitions = [
@@ -389,13 +353,12 @@ export function ShMultiSelect<T extends string | number = string | number>({
   }
 
   const isTriggerActive = open || focused;
-  const showFocusRing = isTriggerActive && !open;
 
   return (
     <ClickAwayListener onClickAway={close}>
       <Box width={fullWidth ? '100%' : 'auto'}>
         <Box ref={anchorRef}>
-          <ShTextFieldV2 density='compact'
+          <ShTextFieldV2 density={density}
             id={fieldId}
             label={label}
             fullWidth={fullWidth}
@@ -423,11 +386,11 @@ export function ShMultiSelect<T extends string | number = string | number>({
             }}
             InputProps={{
               readOnly: true,
-              sx: outlinedBorderSx(isTriggerActive, showFocusRing),
+              sx: getSelectTriggerRootSx(disabled, density),
               startAdornment: (
-                <Box display='flex' flexWrap='wrap' alignItems='center' flex={1} minHeight={24} py={0.25} mr={0.5} sx={{ overflow: 'visible' }}>
+                <TriggerChipArea>
                   {renderChips()}
-                </Box>
+                </TriggerChipArea>
               ),
               endAdornment: (
                 <InputAdornment position='end' sx={{ alignSelf: 'center' }}>
@@ -443,20 +406,7 @@ export function ShMultiSelect<T extends string | number = string | number>({
               ),
             }}
             inputProps={{ readOnly: true, tabIndex: disabled ? -1 : 0 }}
-            sx={{
-              '&& .MuiOutlinedInput-root': {
-                flexWrap: 'wrap',
-                alignItems: 'center',
-                cursor: disabled ? 'not-allowed' : 'pointer',
-                overflow: 'visible',
-              },
-              '&& .MuiOutlinedInput-input': {
-                width: 0,
-                minWidth: 0,
-                padding: '0 !important',
-                opacity: 0,
-              },
-            }}
+            sx={getSelectTriggerFieldSx()}
           />
         </Box>
 
@@ -468,7 +418,7 @@ export function ShMultiSelect<T extends string | number = string | number>({
             <DropdownPanel sx={{ width: anchorRef.current?.offsetWidth ?? 320 }}>
               {searchEnabled && (
                 <Box px={1.25} pt={1.25} pb={0.5}>
-                  <ShTextFieldV2 density='compact'
+                  <ShTextFieldV2 density={density}
                     size='small'
                     fullWidth
                     placeholder='Search...'

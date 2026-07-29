@@ -19,6 +19,7 @@ import { alpha, styled, useTheme } from '@mui/material/styles';
 import { PrimaryThemeColor } from '../../SharedStyles/styleConstants';
 import { ShTextFieldV2 } from '../../shStyleExports';
 import type { ShMultiSelectOption } from '../ShMultiSelect/ShMultiSelect';
+import { getSelectChipSx, getSelectTriggerFieldSx, getSelectTriggerRootSx, SelectFieldDensity, TriggerChipArea } from '../selectTriggerShared';
 
 export type ShSingleSelectProps<T extends string | number = string | number> = {
   label?: string;
@@ -35,6 +36,7 @@ export type ShSingleSelectProps<T extends string | number = string | number> = {
   fullWidth?: boolean;
   id?: string;
   minSearchLength?: number;
+  density?: SelectFieldDensity;
   /** `input` — type in the main field (async search); `panel` — search box inside dropdown; `none` — static list, no search. */
   searchPlacement?: 'input' | 'panel' | 'none';
   renderOptionStart?: (option: ShMultiSelectOption<T>) => ReactNode;
@@ -43,28 +45,6 @@ export type ShSingleSelectProps<T extends string | number = string | number> = {
   noResultsMessage?: string;
   loadingMessage?: string;
 };
-
-const outlinedBorderSx = (active: boolean, showFocusRing: boolean) => ({
-  transition: 'box-shadow 0.2s ease',
-  '& fieldset': {
-    borderWidth: '2px',
-  },
-  '&:hover fieldset': {
-    borderColor: `${PrimaryThemeColor} !important`,
-  },
-  ...(active
-    ? {
-        '& fieldset': {
-          borderColor: `${PrimaryThemeColor} !important`,
-        },
-        ...(showFocusRing
-          ? {
-              boxShadow: `0 0 0 3px ${alpha(PrimaryThemeColor, 0.16)}`,
-            }
-          : {}),
-      }
-    : {}),
-});
 
 const DropdownPanel = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(0.5),
@@ -119,6 +99,7 @@ export function ShSingleSelect<T extends string | number = string | number>({
   emptyMessage = 'No options available',
   noResultsMessage = 'No matches found',
   loadingMessage = 'Searching...',
+  density = 'default',
 }: ShSingleSelectProps<T>) {
   const theme = useTheme();
   const generatedId = useId();
@@ -183,28 +164,11 @@ export function ShSingleSelect<T extends string | number = string | number>({
   };
 
   const isTriggerActive = open || focused;
-  const showFocusRing = isTriggerActive && !open;
   const searchTrimmed = search.trim();
   const showMinLengthHint = searchTrimmed.length > 0 && searchTrimmed.length < minSearchLength;
 
   const chipAvatar = selectedOption ? renderValueAvatar?.(selectedOption) ?? null : null;
-  const chipSx = {
-    height: chipAvatar ? 28 : 24,
-    borderRadius: '6px',
-    fontWeight: 500,
-    backgroundColor: alpha(PrimaryThemeColor, theme.palette.mode === 'light' ? 0.1 : 0.18),
-    color: PrimaryThemeColor,
-    border: `1px solid ${alpha(PrimaryThemeColor, 0.24)}`,
-    '& .MuiChip-avatar': {
-      width: 20,
-      height: 20,
-      marginLeft: theme.spacing(0.5),
-    },
-    '& .MuiChip-deleteIcon': {
-      color: alpha(PrimaryThemeColor, 0.65),
-      '&:hover': { color: PrimaryThemeColor },
-    },
-  };
+  const chipSx = getSelectChipSx(theme, Boolean(chipAvatar));
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') close();
@@ -293,7 +257,7 @@ export function ShSingleSelect<T extends string | number = string | number>({
       <Box width={fullWidth ? '100%' : 'auto'} id={fieldId}>
         <Box ref={anchorRef}>
           {searchInMainInput ? (
-            <ShTextFieldV2 density='compact'
+            <ShTextFieldV2 density={density}
               inputRef={inputRef}
               label={label}
               placeholder={placeholder}
@@ -323,7 +287,6 @@ export function ShSingleSelect<T extends string | number = string | number>({
                 sx: isTriggerActive ? { color: `${PrimaryThemeColor} !important` } : undefined,
               }}
               InputProps={{
-                sx: outlinedBorderSx(isTriggerActive, showFocusRing),
                 startAdornment: (
                   <InputAdornment position='start'>
                     <SearchIcon fontSize='small' color='action' />
@@ -333,7 +296,7 @@ export function ShSingleSelect<T extends string | number = string | number>({
               }}
             />
           ) : (
-            <ShTextFieldV2 density='compact'
+            <ShTextFieldV2 density={density}
               label={label}
               fullWidth={fullWidth}
               size='small'
@@ -360,9 +323,9 @@ export function ShSingleSelect<T extends string | number = string | number>({
               }}
               InputProps={{
                 readOnly: true,
-                sx: outlinedBorderSx(isTriggerActive, showFocusRing),
+                sx: getSelectTriggerRootSx(disabled, density),
                 startAdornment: (
-                  <Box display='flex' flexWrap='wrap' alignItems='center' flex={1} minHeight={24} py={0.25} mr={0.5} sx={{ overflow: 'visible' }}>
+                  <TriggerChipArea>
                     {selectedOption ? (
                       <Chip
                         label={selectedOption.label}
@@ -374,29 +337,16 @@ export function ShSingleSelect<T extends string | number = string | number>({
                         sx={chipSx}
                       />
                     ) : (
-                      <Typography variant='body2' color='text.secondary' noWrap sx={{ py: 0.25, lineHeight: 1.5 }}>
+                      <Typography variant='body2' color='text.secondary' noWrap sx={{ py: 0.25, lineHeight: 1.5, fontSize: '13px' }}>
                         {placeholder}
                       </Typography>
                     )}
-                  </Box>
+                  </TriggerChipArea>
                 ),
                 endAdornment,
               }}
               inputProps={{ readOnly: true, tabIndex: disabled ? -1 : 0 }}
-              sx={{
-                '&& .MuiOutlinedInput-root': {
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  cursor: disabled ? 'not-allowed' : 'pointer',
-                  overflow: 'visible',
-                },
-                '&& .MuiOutlinedInput-input': {
-                  width: 0,
-                  minWidth: 0,
-                  padding: '0 !important',
-                  opacity: 0,
-                },
-              }}
+              sx={getSelectTriggerFieldSx()}
             />
           )}
         </Box>
@@ -415,7 +365,7 @@ export function ShSingleSelect<T extends string | number = string | number>({
           <DropdownPanel sx={{ width: anchorRef.current?.offsetWidth ?? 320 }}>
             {showPanelSearch && (
               <Box px={1.25} pt={1.25} pb={0.5}>
-                <ShTextFieldV2 density='compact'
+                <ShTextFieldV2 density={density}
                   size='small'
                   fullWidth
                   placeholder='Search...'

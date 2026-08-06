@@ -56,3 +56,8 @@ export * from './SharedComponents/ShNavTree/ShNavTree';
 export * from './SharedComponents/ShNavTree/ShNavTreeGroup';
 export * from './SharedComponents/ShMediaCover/ShMediaCover';
 export * from './SharedComponents/ShSortableTableHeader/ShSortableTableHeader';
+export * from './SharedComponents/ShAppPortal/ShAppPortal.types';
+export * from './SharedComponents/ShAppPortal/ShBrandIconWrap';
+export * from './SharedComponents/ShAppPortal/ShAppPortalTile';
+export * from './SharedComponents/ShAppPortal/ShAppPortalPage';
+export * from './SharedComponents/ShAppPortal/ShAppSwitcher';
